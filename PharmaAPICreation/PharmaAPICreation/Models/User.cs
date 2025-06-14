@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PharmaAPICreation.Models
 {
@@ -13,8 +14,10 @@ namespace PharmaAPICreation.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        [Required]
-        public string Role { get; set; }
+        [ForeignKey("Role")]
+        public int RoleId { get; set; }  // New FK
+
+        public Role Role { get; set; }   // Navigation property
 
         public DateTime CreatedDate { get; set; }
 
@@ -23,5 +26,13 @@ namespace PharmaAPICreation.Models
         public string UpdatedBy { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
+
+        [ForeignKey("Branch")]
+        public int BranchId { get; set; }  // Existing FK to branch
+
+        public Branch Branch { get; set; }
+
+
+        public ICollection<AuditLog> AuditLogs { get; set; }
     }
 }

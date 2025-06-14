@@ -22,6 +22,59 @@ namespace PharmaAPICreation.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PharmaAPICreation.Models.AuditLog", b =>
+                {
+                    b.Property<int>("AuditLogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuditLogId"));
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuditLogId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditLogs");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.Branch", b =>
+                {
+                    b.Property<int>("BranchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BranchId"));
+
+                    b.Property<string>("BranchAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BranchId");
+
+                    b.ToTable("Branches");
+                });
+
             modelBuilder.Entity("PharmaAPICreation.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -72,6 +125,9 @@ namespace PharmaAPICreation.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,7 +139,7 @@ namespace PharmaAPICreation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -94,6 +150,8 @@ namespace PharmaAPICreation.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExpenseId");
+
+                    b.HasIndex("BranchId");
 
                     b.ToTable("Expenses");
                 });
@@ -119,6 +177,9 @@ namespace PharmaAPICreation.Migrations
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("GSTRate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Manufacturer")
                         .IsRequired()
@@ -154,6 +215,9 @@ namespace PharmaAPICreation.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PurchaseId"));
 
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -183,6 +247,8 @@ namespace PharmaAPICreation.Migrations
 
                     b.HasKey("PurchaseId");
 
+                    b.HasIndex("BranchId");
+
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Purchases");
@@ -190,18 +256,15 @@ namespace PharmaAPICreation.Migrations
 
             modelBuilder.Entity("PharmaAPICreation.Models.PurchaseItem", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<int>("PurchaseItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PurchaseItemId"));
 
-                    b.Property<string>("BatchNo")
+                    b.Property<string>("BatchNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("CostPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -213,8 +276,18 @@ namespace PharmaAPICreation.Migrations
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("ManufactureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MedicineId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PurchaseId")
                         .HasColumnType("int");
@@ -229,13 +302,30 @@ namespace PharmaAPICreation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ItemId");
+                    b.HasKey("PurchaseItemId");
 
                     b.HasIndex("MedicineId");
 
                     b.HasIndex("PurchaseId");
 
                     b.ToTable("PurchaseItems");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("PharmaAPICreation.Models.Sale", b =>
@@ -245,6 +335,9 @@ namespace PharmaAPICreation.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleId"));
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -271,6 +364,8 @@ namespace PharmaAPICreation.Migrations
 
                     b.HasKey("SaleId");
 
+                    b.HasIndex("BranchId");
+
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Sales");
@@ -278,11 +373,11 @@ namespace PharmaAPICreation.Migrations
 
             modelBuilder.Entity("PharmaAPICreation.Models.SaleItem", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<int>("SaleItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleItemId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -294,7 +389,10 @@ namespace PharmaAPICreation.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("MedicineId")
+                    b.Property<int?>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PurchaseItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -302,6 +400,12 @@ namespace PharmaAPICreation.Migrations
 
                     b.Property<int>("SaleId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Tax")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
@@ -313,9 +417,11 @@ namespace PharmaAPICreation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ItemId");
+                    b.HasKey("SaleItemId");
 
                     b.HasIndex("MedicineId");
+
+                    b.HasIndex("PurchaseItemId");
 
                     b.HasIndex("SaleId");
 
@@ -369,6 +475,9 @@ namespace PharmaAPICreation.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -380,9 +489,8 @@ namespace PharmaAPICreation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -397,16 +505,50 @@ namespace PharmaAPICreation.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.AuditLog", b =>
+                {
+                    b.HasOne("PharmaAPICreation.Models.User", "User")
+                        .WithMany("AuditLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.Expense", b =>
+                {
+                    b.HasOne("PharmaAPICreation.Models.Branch", "Branch")
+                        .WithMany("Expenses")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("PharmaAPICreation.Models.Purchase", b =>
                 {
+                    b.HasOne("PharmaAPICreation.Models.Branch", "Branch")
+                        .WithMany("Purchases")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PharmaAPICreation.Models.Supplier", "Supplier")
                         .WithMany("Purchases")
                         .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Branch");
 
                     b.Navigation("Supplier");
                 });
@@ -432,20 +574,32 @@ namespace PharmaAPICreation.Migrations
 
             modelBuilder.Entity("PharmaAPICreation.Models.Sale", b =>
                 {
+                    b.HasOne("PharmaAPICreation.Models.Branch", "Branch")
+                        .WithMany("Sales")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PharmaAPICreation.Models.Customer", "Customer")
                         .WithMany("Sales")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Branch");
+
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("PharmaAPICreation.Models.SaleItem", b =>
                 {
-                    b.HasOne("PharmaAPICreation.Models.Medicine", "Medicine")
+                    b.HasOne("PharmaAPICreation.Models.Medicine", null)
                         .WithMany("SaleItems")
-                        .HasForeignKey("MedicineId")
+                        .HasForeignKey("MedicineId");
+
+                    b.HasOne("PharmaAPICreation.Models.PurchaseItem", "PurchaseItem")
+                        .WithMany("SaleItems")
+                        .HasForeignKey("PurchaseItemId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -455,9 +609,39 @@ namespace PharmaAPICreation.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Medicine");
+                    b.Navigation("PurchaseItem");
 
                     b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.User", b =>
+                {
+                    b.HasOne("PharmaAPICreation.Models.Branch", "Branch")
+                        .WithMany("Users")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PharmaAPICreation.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.Branch", b =>
+                {
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Purchases");
+
+                    b.Navigation("Sales");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PharmaAPICreation.Models.Customer", b =>
@@ -477,6 +661,16 @@ namespace PharmaAPICreation.Migrations
                     b.Navigation("PurchaseItems");
                 });
 
+            modelBuilder.Entity("PharmaAPICreation.Models.PurchaseItem", b =>
+                {
+                    b.Navigation("SaleItems");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("PharmaAPICreation.Models.Sale", b =>
                 {
                     b.Navigation("SaleItems");
@@ -485,6 +679,11 @@ namespace PharmaAPICreation.Migrations
             modelBuilder.Entity("PharmaAPICreation.Models.Supplier", b =>
                 {
                     b.Navigation("Purchases");
+                });
+
+            modelBuilder.Entity("PharmaAPICreation.Models.User", b =>
+                {
+                    b.Navigation("AuditLogs");
                 });
 #pragma warning restore 612, 618
         }

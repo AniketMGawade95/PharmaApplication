@@ -12,18 +12,18 @@ namespace PharmaAPICreation.Models
 
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
-
         public Customer Customer { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
 
+        [ForeignKey("Branch")]
+        public int BranchId { get; set; }
+        public Branch Branch { get; set; }
+
         public string CreatedBy { get; set; }
-
         public DateTime CreatedAt { get; set; }
-
         public string UpdatedBy { get; set; }
-
         public DateTime? UpdatedAt { get; set; }
 
         public ICollection<SaleItem> SaleItems { get; set; }
