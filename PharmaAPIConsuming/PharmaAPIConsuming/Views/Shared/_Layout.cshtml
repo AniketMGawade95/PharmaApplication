@@ -1,49 +1,252 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="Smarthr - Bootstrap Admin Template">
+    <meta name="keywords" content="admin, estimates, bootstrap, business, html5, responsive, Projects">
+    <meta name="author" content="Dreams technologies - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
     <title>@ViewData["Title"] - PharmaAPIConsuming</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="">
+
+    <!-- Apple Touch Icon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="~/content/assets/img/apple-touch-icon.png">
+
+    <!-- Theme Script js -->
+    <!-- <script src="assets/js/theme-script.js"></script> -->
+    <!-- Bootstrap CSS -->
+    <link href="~/content/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Feather CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/icons/feather/feather.css">
+
+    <!-- Tabler Icon CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/tabler-icons/tabler-icons.css">
+
+    <!-- Select2 CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/select2/css/select2.min.css">
+
+    <!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="~/content/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="~/content/assets/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Summernote CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/summernote/summernote-lite.min.css">
+
+    <!-- Daterangepikcer CSS -->
+	<link rel="stylesheet" href="~/content/assets/plugins/daterangepicker/daterangepicker.css">
+
+    <!-- Color Picker Css -->
+	<link rel="stylesheet" href="~/content/assets/plugins/flatpickr/flatpickr.min.css">
+	<link rel="stylesheet" href="@Url.Content("~/content/assets/plugins/@simonwep/pickr/themes/nano.min.css")">
+
+
+
+    <!-- Main CSS -->
+	<link rel="stylesheet" href="~/content/assets/css/style.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PharmaAPIConsuming.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PharmaAPIConsuming</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - PharmaAPIConsuming - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+
+<body>
+   
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+
+		<!-- Header -->
+		<div class="header">
+			<div class="main-header">
+
+				<div class="header-left">
+					<a href="index.html" class="logo">
+						<img src="~/content/assets/img/logo.svg" alt="Logo">
+					</a>
+					<a href="index.html" class="dark-logo">
+						<img src="~/content/assets/img/logo-white.svg" alt="Logo">
+					</a>
+				</div>
+
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+
+
+
+				<!-- Mobile Menu -->
+				<div class="dropdown mobile-user-menu">
+					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-ellipsis-v"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="">My Profile</a>
+						<a class="dropdown-item" href="">Settings</a>
+						<a class="dropdown-item" href="">Logout</a>
+					</div>
+				</div>
+				<!-- /Mobile Menu -->
+
+			</div>
+
+		</div>
+		<!-- /Header -->
+		<!-- Sidebar -->
+		<div class="sidebar" id="sidebar">
+			<!-- Logo -->
+			<div class="sidebar-logo">
+				<a href="" class="logo logo-normal">
+                    @* <img src="~/content/assets/img/logo.svg" alt="Logo"> *@
+					<img src="~/content/assets/img/pharm.png" width="200px" height="100px" />
+				</a>
+				<a href="" class="logo-small">
+					@* <img src="~/content/assets/img/logo-small.svg" alt="Logo"> *@
+					<img src="~/content/assets/img/pharm.png" width="200px" height="100px" />
+				</a>
+				<a href="" class="dark-logo">
+					@* <img src="~/content/assets/img/logo-white.svg" alt="Logo"> *@
+					<img src="~/content/assets/img/pharm.png" width="200px" height="100px" />
+				</a>
+			</div>
+			<!-- /Logo -->
+
+
+			
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<br />
+						<br />
+						<br />
+						<br />
+						
+						<li class="menu-title"><span>MAIN MENU</span></li>
+
+						<li>
+							<ul>
+
+
+								<li>
+									<a href="#">
+										<i class="ti ti-layout-navbar"></i><span>Dashboard</span>
+									</a>
+								</li>
+
+
+
+
+
+
+								<li class="nav-item">
+									<a href="#" class=" btn-sm d-inline-flex align-items-center no-hover">
+										<i class="ti ti-layout-navbar me-2 text-danger"></i> <span class="text-danger">Logout</span>
+									</a>
+								</li>
+
+
+
+							</ul>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- /Sidebar -->
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+			<div class="content">
+
+				<!-- Welcome Wrap -->
+				<div class="welcome-wrap mb-4">
+					<div class=" d-flex align-items-center justify-content-between flex-wrap">
+						<div class="mb-3">
+							<h2 class="mb-1 text-white">Welcome Back, Adrian</h2>
+
+						</div>
+
+					</div>
+					<div class="welcome-bg">
+						<img src="~/content/assets/img/bg/welcome-bg-02.svg" alt="img" class="welcome-bg-01">
+						<img src="~/content/assets/img/bg/welcome-bg-03.svg" alt="img" class="welcome-bg-02">
+						<img src="~/content/assets/img/bg/welcome-bg-01.svg" alt="img" class="welcome-bg-03">
+					</div>
+				</div>
+				<!-- /Welcome Wrap -->
+				<br />
+				@RenderBody()
+
+			</div>
+
+			<div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
+				<p class="mb-0">2024 - 2025 &copy; PharmaSuits.</p>
+				<p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
+			</div>
+
+		</div>
+		<!-- /Page Wrapper -->
+
+	</div>
+	<!-- /Main Wrapper -->
+	<!-- jQuery -->
+	<script src="~/content/assets/js/jquery-3.7.1.min.js"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="~/content/assets/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Feather Icon JS -->
+	<script src="~/content/assets/js/feather.min.js"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="~/content/assets/js/jquery.slimscroll.min.js"></script>
+
+	<!-- Chart JS -->
+	<script src="~/content/assets/plugins/apexchart/apexcharts.min.js"></script>
+	<script src="~/content/assets/plugins/apexchart/chart-data.js"></script>
+
+	<!-- Chart JS -->
+	<script src="~/content/assets/plugins/chartjs/chart.min.js"></script>
+	<script src="~/content/assets/plugins/chartjs/chart-data.js"></script>
+
+	<!-- Datetimepicker JS -->
+	<script src="~/content/assets/js/moment.js"></script>
+	<script src="~/content/assets/js/bootstrap-datetimepicker.min.js"></script>
+
+	<!-- Daterangepikcer JS -->
+	<script src="~/content/assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+	<!-- Summernote JS -->
+	<script src="~/content/assets/plugins/summernote/summernote-lite.min.js"></script>
+
+	<!-- Select2 JS -->
+	<script src="~/content/assets/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Chart JS -->
+	<script src="~/content/assets/plugins/peity/jquery.peity.min.js"></script>
+	<script src="~/content/assets/plugins/peity/chart-data.js"></script>
+
+	<!-- Color Picker JS -->
+	<script src="@Url.Content("~/assets/plugins/@simonwep/pickr/pickr.es5.min.js")"></script>
+
+	<!-- Custom JS -->
+	<script src="~/content/assets/js/theme-colorpicker.js"></script>
+	<script src="~/content/assets/js/script.js"></script>
+
+
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
