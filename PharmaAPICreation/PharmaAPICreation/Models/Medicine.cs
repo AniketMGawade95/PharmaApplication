@@ -13,16 +13,7 @@ namespace PharmaAPICreation.Models
 
         public string Category { get; set; }
 
-        public string Manufacturer { get; set; }
-
         public decimal GSTRate { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal PricePerUnit { get; set; }
-
-        public int Quantity { get; set; }
-
-        public DateTime ExpiryDate { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -30,6 +21,6 @@ namespace PharmaAPICreation.Models
         public DateTime? UpdatedAt { get; set; }
 
         public ICollection<PurchaseItem> PurchaseItems { get; set; }
-        public ICollection<SaleItem> SaleItems { get; set; }
+        //public ICollection<SaleItem> SaleItems { get; set; }
     }
 }
