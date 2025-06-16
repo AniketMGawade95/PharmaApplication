@@ -2,6 +2,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PharmaAPICreation.Data;
 using PharmaAPICreation.Mapper;
+using PharmaAPICreation.Repo;
+using PharmaAPICreation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,12 @@ builder.Services.AddDbContext<ApplicationDbContext>
         )
     );
 
+
+builder.Services.AddScoped<IAuthorization, AuthorizationService>();
+builder.Services.AddScoped<IAdmin, AdminServices>();
+builder.Services.AddScoped<ICashier, CashierServices>();
+builder.Services.AddScoped<IPharmacist, PharmacistService>();
+builder.Services.AddScoped<IUser, UserServices>();
 
 
 builder.Services.AddControllers();

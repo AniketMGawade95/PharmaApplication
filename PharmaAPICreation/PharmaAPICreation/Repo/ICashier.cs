@@ -1,6 +1,6 @@
 ﻿namespace PharmaAPICreation.Repo
 {
-    public interface demo
+    public interface ICashier
     {
     }
 }

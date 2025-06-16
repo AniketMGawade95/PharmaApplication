@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PharmaAPICreation.Repo;
 
 namespace PharmaAPICreation.Controllers
 {
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        public IActionResult Index()
+        IUser repo;
+        public UserController(IUser repo)
         {
-            return View();
+            this.repo = repo;   
         }
     }
 }

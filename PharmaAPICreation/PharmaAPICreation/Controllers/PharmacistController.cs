@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PharmaAPICreation.Repo;
 
 namespace PharmaAPICreation.Controllers
 {
@@ -7,5 +8,10 @@ namespace PharmaAPICreation.Controllers
     [ApiController]
     public class PharmacistController : ControllerBase
     {
+        IPharmacist repo;
+        public PharmacistController(IPharmacist repo)
+        {
+            this.repo = repo;   
+        }
     }
 }
