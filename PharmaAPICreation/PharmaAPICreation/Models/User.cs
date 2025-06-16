@@ -10,6 +10,9 @@ namespace PharmaAPICreation.Models
 
         [Required]
         public string Username { get; set; }
+        
+        [Required]
+        public string UserEmail { get; set; }
 
         [Required]
         public string PasswordHash { get; set; }
