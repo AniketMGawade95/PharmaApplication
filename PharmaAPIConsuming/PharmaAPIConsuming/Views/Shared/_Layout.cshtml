@@ -135,24 +135,64 @@
 
 						<li>
 							<ul>
+								@if (User.Identity.IsAuthenticated)
+								{
+
+									if (User.IsInRole("Admin"))
+									{
+										<li>
+											<a asp-area="" asp-controller="Admin" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li>
+									}
+									if (User.IsInRole("Pharmacist"))
+									{
+										<li>
+											<a asp-area="" asp-controller="Pharmacist" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li>
+									}
+									if (User.IsInRole("Cashier"))
+									{
+										<li>
+											<a asp-area="" asp-controller="Cashier" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li>
+									}
+									if (User.IsInRole("User"))
+									{
+										<li >
+											<a asp-area="" asp-controller="User" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li>
+									}
 
 
-								<li>
+
+									<li class="nav-item">
+										<a asp-action="Logout" asp-controller="Auth" class=" btn-sm d-inline-flex align-items-center no-hover">
+											<i class="ti ti-layout-navbar me-2 text-danger"></i> <span class="text-danger">Logout</span>
+										</a>
+									</li>
+
+								}
+								else
+								{
+								@* 	<li>
 									<a href="#">
 										<i class="ti ti-layout-navbar"></i><span>Dashboard</span>
 									</a>
-								</li>
-
-
-
-
-
+								</li> *@
 
 								<li class="nav-item">
-									<a href="#" class=" btn-sm d-inline-flex align-items-center no-hover">
+									<a asp-action="Logout" asp-controller="Auth" class=" btn-sm d-inline-flex align-items-center no-hover">
 										<i class="ti ti-layout-navbar me-2 text-danger"></i> <span class="text-danger">Logout</span>
 									</a>
 								</li>
+									
+								}
+
+
+
+
+
+								
 
 
 
@@ -173,7 +213,7 @@
 				<div class="welcome-wrap mb-4">
 					<div class=" d-flex align-items-center justify-content-between flex-wrap">
 						<div class="mb-3">
-							<h2 class="mb-1 text-white">Welcome Back, Adrian</h2>
+							<h2 class="mb-1 text-white">Welcome Back, @User.Identity.Name</h2>
 
 						</div>
 
