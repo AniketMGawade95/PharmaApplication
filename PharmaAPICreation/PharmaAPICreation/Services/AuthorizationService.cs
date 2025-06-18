@@ -17,7 +17,7 @@ namespace PharmaAPICreation.Services
             this.db = db;
         }
 
-        public void AddEmp(object data)
+        public void AddUser(object data)
         {
             if (data != null)
             {
@@ -31,13 +31,14 @@ namespace PharmaAPICreation.Services
             var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.Username == Username);
 
 
-            //var user = db.Users.Include(u => u.Role).Select(x=>new LoginResponseDTO()
+            //var user = db.Users.Include(u => u.Role).Select(x => new LoginResponseDTO()
             //{
             //    Username = x.Username,
             //    BranchId = x.BranchId,
-            //    RoleName=x.Role.RoleName,
-            //    Password=x.PasswordHash
-            //}).FirstOrDefault(u => u.Username == Username && u.Password== Password);
+            //    RoleName = x.Role.RoleName,
+            //    UserEmail=x.UserEmail,
+
+            //}).FirstOrDefault(u => u.Username == Username);
 
             if (user != null && BCrypt.Net.BCrypt.Verify(Password, user.PasswordHash))
             {

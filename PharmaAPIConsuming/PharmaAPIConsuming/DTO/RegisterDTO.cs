@@ -11,6 +11,8 @@ namespace PharmaAPIConsuming.DTO
 
         public string PasswordHash { get; set; }
 
+        public string UserEmail { get; set; }
+
         public int RoleId { get; set; }
 
         public DateTime CreatedDate { get; set; }

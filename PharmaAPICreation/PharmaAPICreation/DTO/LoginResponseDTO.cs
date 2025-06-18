@@ -7,6 +7,7 @@
         public string RoleName { get; set; }
         public int BranchId { get; set; }
 
-        //public string Password { get; set; }
+        public string UserEmail {  get; set; }
+        public string PasswordHash { get; set; }
     }
 }

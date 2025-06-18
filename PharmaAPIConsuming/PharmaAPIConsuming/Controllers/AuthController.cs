@@ -1,8 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PharmaAPIConsuming.Data;
 using PharmaAPIConsuming.DTO;
+using PharmaAPIConsuming.Models;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 
 namespace PharmaAPIConsuming.Controllers
@@ -11,12 +18,15 @@ namespace PharmaAPIConsuming.Controllers
     {
 
         HttpClient client;
-        public AuthController()
+        AppDbCcontext db;
+        public AuthController(AppDbCcontext db)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             client = new HttpClient(clientHandler);
+
+            this.db = db;
         }
 
         public IActionResult Index()
@@ -33,31 +43,107 @@ namespace PharmaAPIConsuming.Controllers
         //[HttpPost]
         //public async Task<IActionResult> Login(LoginDTO dto)
         //{
-            //string url = "https://localhost:7030/api/Login";
-            //var json = JsonConvert.SerializeObject(dto);
-            //var content = new StringContent(json, Encoding.UTF8, "application/json");
+        //string url = "https://localhost:7030/api/Login";
+        //var json = JsonConvert.SerializeObject(dto);
+        //var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //HttpResponseMessage response = await client.PostAsync(url, content);
+        //HttpResponseMessage response = await client.PostAsync(url, content);
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var result = await response.Content.ReadFromJsonAsync<LoginResponseDTOClass>();
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    var result = await response.Content.ReadFromJsonAsync<LoginResponseDTOClass>();
 
-            //    HttpContext.Session.SetInt32("UserID", result.UserId);
-            //    HttpContext.Session.SetString("Username", result.Username);
-            //    HttpContext.Session.SetString("Role", result.RoleName);
+        //    HttpContext.Session.SetInt32("UserID", result.UserId);
+        //    HttpContext.Session.SetString("Username", result.Username);
+        //    HttpContext.Session.SetString("Role", result.RoleName);
 
-            //    if (result.RoleName == "Admin")
-            //        return RedirectToAction("Index", "AdminDashboard");
-            //    else if (result.RoleName == "Pharmacist")
-            //        return RedirectToAction("Index", "PharmacistDashboard");
-            //    else
-            //        return RedirectToAction("Index", "CashierDashboard");
-            //}
-
-            //ViewBag.Error = "Invalid login credentials";
-            //return View();
+        //    if (result.RoleName == "Admin")
+        //        return RedirectToAction("Index", "AdminDashboard");
+        //    else if (result.RoleName == "Pharmacist")
+        //        return RedirectToAction("Index", "PharmacistDashboard");
+        //    else
+        //        return RedirectToAction("Index", "CashierDashboard");
         //}
+
+        //ViewBag.Error = "Invalid login credentials";
+        //return View();
+        //}
+
+
+
+        [HttpPost]
+        public IActionResult Login(User u)
+        {
+            //var data = db.Users.Incude(Role).Where(x => x.Username.Equals(u.Username)).SingleOrDefault();
+            var data = db.Users.Include(x => x.Role).FirstOrDefault(x => x.Username == u.Username);
+
+            if (data != null)
+            {
+                var pass = BCrypt.Net.BCrypt.Verify(u.PasswordHash, data.PasswordHash);
+                if (pass)
+                {
+
+                    var identity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.Name,data.Username),
+                        new Claim(ClaimTypes.Role,data.Role.RoleName)
+                    },
+                    CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var principal = new ClaimsPrincipal(identity);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    HttpContext.Session.SetString("Username", data.Username);
+
+                    if (data.Role.RoleName == "Admin")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    if (data.Role.RoleName == "Pharmacist")
+                    {
+                        return RedirectToAction("Index", "Pharma");
+                    }
+                    if (data.Role.RoleName == "Cashier")
+                    {
+                        return RedirectToAction("Dashboard", "Cashier");
+                    }
+                    if (data.Role.RoleName == "User")
+                    {
+                        return RedirectToAction("Dashboard", "User");
+                    }
+                    else
+                    {
+                        TempData["RoleError"] = "Unknown Role";
+                        return View();
+                    }
+
+
+
+                }
+                else
+                {
+                    TempData["InPass"] = "Invalid Password";
+                    return View();
+                }
+
+            }
+            else
+            {
+                TempData["InUsername"] = "Invalid Username";
+                return View();
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 
         public IActionResult Register()
@@ -93,6 +179,30 @@ namespace PharmaAPIConsuming.Controllers
             }
             return View();
 
+        }
+
+
+
+
+
+
+
+
+
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var allcookies = Request.Cookies.Keys;
+
+            HttpContext.Session.Clear();
+
+            foreach (var cookie in allcookies)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 
