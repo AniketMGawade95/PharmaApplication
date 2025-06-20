@@ -25,7 +25,7 @@ builder.Services.AddScoped<IAdmin, AdminServices>();
 builder.Services.AddScoped<ICashier, CashierServices>();
 builder.Services.AddScoped<IPharmacist, PharmacistService>();
 builder.Services.AddScoped<IUser, UserServices>();
-builder.Services.AddScoped<BillingRepo, BillingServices>();
+builder.Services.AddScoped<CustomerRepo, CustomerServices>();
 
 
 builder.Services.AddControllers();

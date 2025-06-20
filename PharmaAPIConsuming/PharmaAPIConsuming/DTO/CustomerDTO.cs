@@ -1,4 +1,4 @@
-﻿namespace PharmaAPICreation.DTO
+﻿namespace PharmaAPIConsuming.DTO
 {
     public class CustomerDTO
     {
@@ -7,6 +7,5 @@
         public string Name { get; set; }
         public string Mobile { get; set; }
         public string Address { get; set; }
-
     }
 }

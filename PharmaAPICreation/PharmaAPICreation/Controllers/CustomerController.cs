@@ -7,10 +7,10 @@ namespace PharmaAPICreation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillingController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        BillingRepo repo;
-        public BillingController(BillingRepo repo)
+        CustomerRepo repo;
+        public CustomerController(CustomerRepo repo)
         {
             this.repo = repo;
         }

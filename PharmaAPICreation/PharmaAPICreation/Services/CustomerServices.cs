@@ -5,15 +5,16 @@ using PharmaAPICreation.Data;
 using PharmaAPICreation.DTO;
 using PharmaAPICreation.Models;
 using PharmaAPICreation.Repo;
+using System.Reflection;
 
 namespace PharmaAPICreation.Services
 {
-    public class BillingServices : BillingRepo
+    public class CustomerServices : CustomerRepo
     {
         ApplicationDbContext db;
         IMapper mapper;
 
-        public BillingServices(ApplicationDbContext db, IMapper mapper)
+        public CustomerServices(ApplicationDbContext db, IMapper mapper)
         {
             this.db = db;
             this.mapper = mapper;
@@ -22,6 +23,8 @@ namespace PharmaAPICreation.Services
         public void AddCustomer(CustomerDTO dto)
         {
             var c = mapper.Map<Customer>(dto);
+            //c.CreatedAt = DateTime.UtcNow;
+            //c.CreatedBy = dto.CreatedBy;
             db.Customers.Add(c);
             db.SaveChanges();
         }
@@ -47,6 +50,8 @@ namespace PharmaAPICreation.Services
         public void UpdateCustomer(CustomerDTO dto)
         {
             var c = mapper.Map<Customer>(dto);
+            //c.UpdatedBy = dto.UpdatedBy;
+            //c.UpdatedAt = DateTime.UtcNow;
             db.Customers.Update(c);
             db.SaveChanges();
         }

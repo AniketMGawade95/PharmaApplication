@@ -3,7 +3,7 @@ using PharmaAPICreation.Models;
 
 namespace PharmaAPICreation.Repo
 {
-    public interface BillingRepo
+    public interface CustomerRepo
     {
         void AddCustomer(CustomerDTO dto);
         List<CustomerDTO> GetAllCustomers();
