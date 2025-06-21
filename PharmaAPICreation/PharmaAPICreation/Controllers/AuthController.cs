@@ -34,17 +34,17 @@ namespace PharmaAPICreation.Controllers
             }
 
 
-            //var response = new
-            //{
-            //    user.UserId,
-            //    user.Username,
-            //    user.Role.RoleName,
-            //    user.BranchId
-            //};
+            var response = new LoginResponseDTO
+            {
+               Username=user.Username,
+                RoleName= user.Role.RoleName,
+                BranchId= user.BranchId,
+                UserEmail = user.UserEmail
+            };
 
-            var userDto = mapper.Map<LoginResponseDTO>(user);
+            //var userDto = mapper.Map<LoginResponseDTO>(user);
 
-            return Ok(userDto);
+            return Ok(response);
         }
 
 
@@ -68,6 +68,7 @@ namespace PharmaAPICreation.Controllers
             {
                 Username = dtoo.Username,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dtoo.PasswordHash),
+                UserEmail=dtoo.UserEmail,
                 RoleId = 2,
                 CreatedDate = DateTime.Now,
                 CreatedBy="System",
@@ -78,7 +79,7 @@ namespace PharmaAPICreation.Controllers
 
             if (data != null)
             {
-                repo.AddEmp(data);
+                repo.AddUser(data);
                 return Ok("User Added Succesfully");
             }
             else

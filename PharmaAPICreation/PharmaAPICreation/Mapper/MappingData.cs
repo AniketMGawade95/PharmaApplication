@@ -35,6 +35,8 @@ namespace PharmaAPICreation.Mapper
  //---------------------------------------------------------------------------------------------------------------------
 
 
+
+            CreateMap<Customer, CustomerDTO>().ReverseMap();
         }
 
 

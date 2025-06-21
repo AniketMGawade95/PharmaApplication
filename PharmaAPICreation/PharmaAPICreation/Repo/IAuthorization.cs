@@ -8,6 +8,6 @@ namespace PharmaAPICreation.Repo
 
         List<Branch> fetchbranch();
 
-        void AddEmp(object data);
+        void AddUser(object data);
     }
 }

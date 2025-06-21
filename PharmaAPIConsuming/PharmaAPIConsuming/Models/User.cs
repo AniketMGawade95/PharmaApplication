@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
-namespace PharmaAPICreation.Models
+namespace PharmaAPIConsuming.Models
 {
     public class User
     {
+
         [Key]
         public int UserId { get; set; }
 
         [Required]
         public string Username { get; set; }
-        
+
         [Required]
         public string UserEmail { get; set; }
 
@@ -36,6 +38,6 @@ namespace PharmaAPICreation.Models
         public Branch Branch { get; set; }
 
 
-        public ICollection<AuditLog> AuditLogs { get; set; }
+        
     }
 }

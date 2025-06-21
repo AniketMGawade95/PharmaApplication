@@ -1,6 +1,6 @@
 ﻿@using PharmaAPIConsuming.DTO
-@model LoginDTO
-
+@* @model LoginDTO *@
+@model User 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,17 +79,27 @@
 											<div class="mb-3">
 												<label class="form-label">Username</label>
 												<div class="input-group">
-													<input type="text" name="Username" placeholder="Username" class="form-control border-end-0">
+													<input type="text" asp-for="Username" placeholder="Username" class="form-control border-end-0">
 													<span class="input-group-text border-start-0">
 														<i class="ti ti-mail"></i>
 													</span>
+													@if (TempData["InUsername"] != null)
+													{
+														<span class="text-danger">@TempData["InUsername"]</span>
+
+													}
 												</div>
 											</div>
 											<div class="mb-3">
 												<label class="form-label">Password</label>
 												<div class="pass-group">
-													<input type="password" name="Password" placeholder="Password" class="pass-input form-control">
+													<input type="password" asp-for="PasswordHash" placeholder="Password" class="pass-input form-control">
 													<span class="ti toggle-password ti-eye-off"></span>
+													@if (TempData["InPass"] != null)
+													{
+														<span class="text-danger">@TempData["InPass"]</span>
+
+													}
 												</div>
 											</div>
 											<div class="d-flex align-items-center justify-content-between mb-3">
@@ -106,9 +116,16 @@
 													</a>
 												</div>
 											</div>
+
+
 											<div class="mb-3">
 												<button type="submit" class="btn btn-primary w-100">Sign In</button>
 											</div>
+
+
+
+
+
 											<div class="text-center">
 												<h6 class="fw-normal text-dark mb-0">
 													Don’t have an account?

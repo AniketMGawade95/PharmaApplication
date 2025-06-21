@@ -36,6 +36,7 @@ builder.Services.AddScoped<IPurchaseItemRepo, PurchaseItemService>();
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<CustomerRepo, CustomerServices>();
 
 
 builder.Services.AddControllers();
