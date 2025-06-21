@@ -19,12 +19,23 @@ builder.Services.AddDbContext<ApplicationDbContext>
         )
     );
 
+//builder.Services.AddControllers();
+
+builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddAutoMapper(typeof(Program));
+
 
 builder.Services.AddScoped<IAuthorization, AuthorizationService>();
 builder.Services.AddScoped<IAdmin, AdminServices>();
 builder.Services.AddScoped<ICashier, CashierServices>();
 builder.Services.AddScoped<IPharmacist, PharmacistService>();
 builder.Services.AddScoped<IUser, UserServices>();
+builder.Services.AddScoped<IPurchaseRepo, PurchaseServices>();
+builder.Services.AddScoped<IPurchaseItemRepo, PurchaseItemService>();
+
+
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 builder.Services.AddControllers();

@@ -1,10 +1,15 @@
-﻿namespace PharmaAPICreation.Repo
+﻿using PharmaAPICreation.DTO;
+using PharmaAPICreation.Models;
+
+namespace PharmaAPICreation.Repo
 {
-<<<<<<<< Updated upstream:PharmaAPICreation/PharmaAPICreation/Repo/IUser.cs
-    public interface IUser
-========
-    public interface IpurchaseRepo
->>>>>>>> Stashed changes:PharmaAPICreation/PharmaAPICreation/Repo/IPurchaseRepo.cs
+    public interface IPurchaseRepo
     {
+        IEnumerable<Purchase> GetAll();
+        Purchase GetById(int id);
+        void Add(Purchase purchase);
+        void Update(Purchase purchase);
+        void Delete(int id);
+
     }
 }
