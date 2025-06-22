@@ -36,10 +36,17 @@ namespace PharmaAPICreation.Controllers
 
             var response = new LoginResponseDTO
             {
+                UserId=user.UserId,
                Username=user.Username,
                 RoleName= user.Role.RoleName,
                 BranchId= user.BranchId,
-                UserEmail = user.UserEmail
+                UserEmail = user.UserEmail,
+                PasswordHash=user.PasswordHash, 
+                CreatedBy=user.CreatedBy,
+                CreatedDate=user.CreatedDate,
+                UpdatedBy=user.UpdatedBy,
+                UpdatedAt=user.UpdatedAt
+                
             };
 
             //var userDto = mapper.Map<LoginResponseDTO>(user);

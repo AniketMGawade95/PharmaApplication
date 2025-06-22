@@ -93,10 +93,11 @@ namespace PharmaAPIConsuming.Controllers
                     var principal = new ClaimsPrincipal(identity);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     HttpContext.Session.SetString("Username", data.Username);
+                    HttpContext.Session.SetString("UserRole", data.Role.RoleName);
 
                     if (data.Role.RoleName == "Admin")
                     {
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Dashboard", "Admin");
                     }
                     if (data.Role.RoleName == "Pharmacist")
                     {
