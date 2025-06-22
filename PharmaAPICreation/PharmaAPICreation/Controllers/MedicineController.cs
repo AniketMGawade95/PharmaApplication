@@ -58,7 +58,7 @@ namespace PharmaAPICreation.Controllers
         {
             if (id != dto.MedicineId) return BadRequest("Id mismatch");
             var medicine = medicineRepository.GetMedicineById(id);
-            if (medicine == null) return NotFound("Medine does not exixts");
+            if (medicine == null) return NotFound("Medicne does not exixts");
             mapper.Map(dto, medicine); // Source is dto, Target is model
             medicine.UpdatedAt = DateTime.Now;
             medicine.UpdatedBy = dto.UpdatedBy ?? "Defaultuser";
@@ -67,18 +67,19 @@ namespace PharmaAPICreation.Controllers
         }
 
         //[HttpPut]
-        //[Route("UpdateMed")] // change route
-        //public IActionResult UpdateMedicine([FromBody] MedicineUpdateDTO dto)
+        //[Route("UpdateMed")]
+        //public IActionResult Update([FromBody] MedicineUpdateDTO dto)
         //{
-        //    var id = dto.MedicineId;
-        //    var medicine = medicineRepository.GetMedicineById(id);
-        //    if (medicine == null) return NotFound("Not found");
+        //    var existingMedicine = medicineRepository.GetMedicineById(dto.MedicineId);
+        //    if (existingMedicine == null)
+        //        return NotFound("Medicine not found");
 
-        //    mapper.Map(dto, medicine);
-        //    medicine.UpdatedAt = DateTime.Now;
-        //    medicine.UpdatedBy = dto.UpdatedBy ?? "Defaultuser";
-        //    medicineRepository.UpdateMedicine(medicine);
-        //    return Ok("Medicine Updated");
+        //    mapper.Map(dto, existingMedicine);
+        //    existingMedicine.UpdatedAt = DateTime.Now;
+        //    existingMedicine.UpdatedBy = dto.UpdatedBy ?? "DefaultUser";
+
+        //    medicineRepository.UpdateMedicine(existingMedicine);
+        //    return Ok("Medicine updated successfully");
         //}
 
         [HttpDelete]

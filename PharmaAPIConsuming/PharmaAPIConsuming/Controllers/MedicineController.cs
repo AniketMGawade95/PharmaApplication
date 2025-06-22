@@ -56,15 +56,22 @@ namespace PharmaAPIConsuming.Controllers
         //    httpClient.PutAsJsonAsync(baseurl + $"UpdateMed{id}", dto).Wait();
         //    return Ok("Medicine Updated SucessFully");
         //}
-        [HttpPut]
-        public IActionResult UpdateMedicine([FromBody] MedicineUpdateDTO dto)
+        [HttpPost]
+        public IActionResult UpdateMedicine(MedicineUpdateDTO dto)
         {
-            dto.UpdatedBy = "Admin";
             dto.UpdatedAt = DateTime.Now;
-            httpClient.PutAsJsonAsync(baseurl + $"UpdateMed{dto.MedicineId}", dto).Wait();
-            return Ok("Medicine Updated Successfully");
-        }
+            dto.UpdatedBy = "Admin";
+            var response = httpClient.PutAsJsonAsync(baseurl + $"UpdateMed{dto.MedicineId}", dto).Result;
 
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok("Medicine Updated Successfully");
+            }
+            else
+            {
+                return BadRequest("Update Failed");
+            }
+        }
 
         [HttpDelete]
         public IActionResult DeleteMedicine(int id)

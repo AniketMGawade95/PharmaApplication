@@ -70,11 +70,14 @@ function saveMedicine() {
         //};
         $.ajax({
             //url: `/Medicine/UpdateMedicine/${updatedMedicine.medicineId}`,
-            url: `Medicine/UpdateMedicine`,
-            type: 'PUT',
+            //type: 'PUT',
             //dataType: 'Json',
-            contentType: 'application/json',
-            data: JSON.stringify(updatedMedicine),
+            //contentType: 'application/json',
+            //data: JSON.stringify(updatedMedicine),
+            url: '/Medicine/UpdateMedicine',
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: updatedMedicine,
             success: function () {
                 toastr.success("Medicine Updated");
                 $("#exampleModal").modal('hide');
