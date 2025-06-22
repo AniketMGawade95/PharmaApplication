@@ -22,6 +22,16 @@ namespace PharmaAPICreation.Repo
 
 
 
+        //Task AddUserAsync(User user);
+        //Task<List<UserDetailDTOnew>> GetAllUsersAsync();
+        //Task<UserDetailDTOnew> GetUserByIdAsync(int id);
+        //Task UpdateUserAsync(UpdateUserDTOnew dto);
+
+        //Task DeleteUserAsync(int id);
+
+
+
+
 
         void AddRole(Role role);
         Task<List<Role>> FetchRolesAsync();

@@ -340,7 +340,7 @@ namespace PharmaAPIConsuming.Controllers
 
         public IActionResult ManageUsers()
         {
-              return View();
+            return View();
         }
 
         [HttpGet]
@@ -369,6 +369,7 @@ namespace PharmaAPIConsuming.Controllers
         {
             var json = JsonConvert.SerializeObject(new
             {
+                dto.UserId,
                 dto.Username,
                 dto.UserEmail,
                 dto.PasswordHash,
@@ -379,7 +380,7 @@ namespace PharmaAPIConsuming.Controllers
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // ✅ Correctly using dto.UserId in the route
+
             var response = await client.PutAsync($"{baseUrl}UpdateUser/{dto.UserId}", content);
 
             return Json(response.IsSuccessStatusCode);
@@ -387,43 +388,6 @@ namespace PharmaAPIConsuming.Controllers
 
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateUsers(UserDetailDTO dto)
-        //{
-        //    var json = JsonConvert.SerializeObject(new
-        //    {
-        //        dto.Username,
-        //        dto.UserEmail,
-        //        dto.PasswordHash,
-        //        dto.RoleId,
-        //        dto.BranchId,
-        //        dto.UpdatedBy
-        //    });
-
-        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
-        //    var response = await client.PutAsync($"{baseUrl}UpdateUser/{dto.UserId}", content);
-        //    return Json(response.IsSuccessStatusCode);
-        //}
-
-
-        //[HttpPut("UpdateUsers/{id}")]
-        //public async Task<IActionResult> UpdateUsers(int id, [FromBody] UserDetailDTO dto)
-        //{
-        //    var json = JsonConvert.SerializeObject(new
-        //    {
-        //        dto.Username,
-        //        dto.UserEmail,
-        //        dto.PasswordHash,
-        //        dto.RoleId,
-        //        dto.BranchId,
-        //        dto.UpdatedBy
-        //    });
-
-        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        //    var response = await client.PutAsync($"{baseUrl}UpdateUser/{id}", content);
-        //    return Json(response.IsSuccessStatusCode);
-        //}
 
 
 
@@ -443,6 +407,61 @@ namespace PharmaAPIConsuming.Controllers
             return Json(response.IsSuccessStatusCode);
         }
 
+
+
+        //public IActionResult ManageUsersnew()
+        //{
+        //    return View();
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> AddUser(UserDTOnew dto)
+        //{
+        //    dto.CreatedBy = HttpContext.Session.GetString("Username"); // or "Admin"
+        //    var json = JsonConvert.SerializeObject(dto);
+        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    var response = await client.PostAsync($"{baseUrl}AddUser", content);
+        //    return Json(response.IsSuccessStatusCode);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateUser(UserDTOnew dto)
+        //{
+        //    dto.UpdatedBy = HttpContext.Session.GetString("Username"); // or "Admin"
+        //    var json = JsonConvert.SerializeObject(dto);
+        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    var response = await client.PostAsync($"{baseUrl}UpdateUser", content);
+        //    return Json(response.IsSuccessStatusCode);
+        //}
+
+
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> FetchUsers()
+        //{
+        //    var response = await client.GetAsync($"{baseUrl}FetchUsers");
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    var data = JsonConvert.DeserializeObject<List<UserDTOnew>>(json);
+        //    return Json(data);
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetUserById(int userId)
+        //{
+        //    var response = await client.GetAsync($"{baseUrl}GetUser?id={userId}");
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    var user = JsonConvert.DeserializeObject<UserDTOnew>(json);
+        //    return Json(user);
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> DeleteUser(int userId)
+        //{
+        //    var response = await client.DeleteAsync($"{baseUrl}DeleteUser?id={userId}");
+        //    return Json(response.IsSuccessStatusCode);
+        //}
 
 
 
