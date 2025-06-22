@@ -29,9 +29,12 @@ builder.Services.AddScoped<IAuthorization, AuthorizationService>();
 builder.Services.AddScoped<IAdmin, AdminServices>();
 builder.Services.AddScoped<ICashier, CashierServices>();
 builder.Services.AddScoped<IPharmacist, PharmacistService>();
-builder.Services.AddScoped<IUser, UserServices>();
+//builder.Services.AddScoped<IUser, UserServices>();
 builder.Services.AddScoped<IPurchaseRepo, PurchaseServices>();
 builder.Services.AddScoped<IPurchaseItemRepo, PurchaseItemService>();
+//----------------------------By Raju------------------------------->
+builder.Services.AddScoped<IMedicineRepository, MedicineService>();
+//------------------------------------------------------------------x
 
 
 
