@@ -1,0 +1,49 @@
+﻿@model PharmaAPIConsuming.DTO.PurchaseItemUpdateDTO
+@{
+    ViewBag.Title = "Edit Purchase Item";
+    var medicines = ViewBag.Medicines as List<SelectListItem>;
+    var branches = ViewBag.Branches as List<SelectListItem>;
+    int selectedMedicineId = Model.MedicineId;
+    int selectedBranchId = Model.BranchId;
+}
+
+<h2 class="mb-4">Edit Purchase Item</h2>
+
+<form method="post" action="@Url.Action("Edit", "PurchaseItem", new { id = ViewBag.Id })">
+    <div class="mb-3">
+        <label>Medicine</label>
+        <select name="MedicineId" class="form-control">
+            @foreach (var item in medicines)
+            {
+                    <option value="@item.Value" selected="@(item.Value == selectedMedicineId.ToString() ? "selected" : null)">
+                    @item.Text
+                    </option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Quantity</label>
+        <input type="number" name="Quantity" class="form-control" value="@Model.Quantity" />
+    </div>
+
+    <div class="mb-3">
+        <label>Rate</label>
+        <input type="number" name="Rate" class="form-control" value="@Model.Rate" />
+    </div>
+
+    <div class="mb-3">
+        <label>Branch</label>
+        <select name="BranchId" class="form-control">
+            @foreach (var item in branches)
+            {
+                    <option value="@item.Value" selected="@(item.Value == selectedBranchId.ToString() ? "selected" : null)">
+                    @item.Text
+                    </option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/PurchaseItem/Index" class="btn btn-secondary">Back</a>
+</form>
