@@ -420,6 +420,7 @@ namespace PharmaAPICreation.Controllers
         {
             var updated = new User
             {
+                
                 Username = dto.Username,
                 UserEmail = dto.UserEmail,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash),
