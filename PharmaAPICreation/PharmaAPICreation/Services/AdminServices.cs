@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PharmaAPICreation.Data;
 using PharmaAPICreation.DTO;
 using PharmaAPICreation.Models;
@@ -13,10 +14,12 @@ namespace PharmaAPICreation.Services
     public class AdminServices:IAdmin
     {
         ApplicationDbContext db;
+        private readonly IMapper mapper;
 
-        public AdminServices(ApplicationDbContext db)
+        public AdminServices(ApplicationDbContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
         }
 
 
@@ -39,7 +42,7 @@ namespace PharmaAPICreation.Services
                     UserId = u.UserId,
                     Username = u.Username,
                     UserEmail = u.UserEmail,
-                    PasswordHash=u.PasswordHash,
+                    PasswordHash = u.PasswordHash,
                     RoleId = u.RoleId,
                     RoleName = u.Role.RoleName,
                     BranchId = u.BranchId,
@@ -92,6 +95,91 @@ namespace PharmaAPICreation.Services
 
 
 
+
+
+
+        //    public async Task AddUserAsync(User user)
+        //    {
+        //        user.UpdatedBy = user.CreatedBy;          
+        //        user.UpdatedAt = DateTime.Now;            
+        //        await db.Users.AddAsync(user);
+        //        await db.SaveChangesAsync();
+        //    }
+
+
+        //    public async Task<List<UserDetailDTOnew>> GetAllUsersAsync()
+        //    {
+        //        return await db.Users
+        //.Include(u => u.Role)
+        //.Include(u => u.Branch)
+        //.Select(u => new UserDetailDTOnew
+        //{
+        //    UserId = u.UserId,
+        //    Username = u.Username,
+        //    UserEmail = u.UserEmail,
+        //    RoleId = u.RoleId,
+        //    RoleName = u.Role.RoleName,
+        //    BranchId = u.BranchId,
+        //    BranchName = u.Branch.BranchName,
+        //    CreatedDate = u.CreatedDate,
+        //    UpdatedAt = u.UpdatedAt
+        //})
+        //.ToListAsync();
+        //    }
+
+
+        //    public async Task<UserDetailDTOnew> GetUserByIdAsync(int id)
+        //    {
+        //        var user = await db.Users
+        //            .Include(u => u.Role)
+        //            .Include(u => u.Branch)
+        //            .FirstOrDefaultAsync(u => u.UserId == id);
+
+        //        if (user == null) return null;
+
+        //        return new UserDetailDTOnew
+        //        {
+        //            UserId = user.UserId,
+        //            Username = user.Username,
+        //            UserEmail = user.UserEmail,
+        //            RoleName = user.Role.RoleName,
+        //            BranchName = user.Branch.BranchName
+        //        };
+        //    }
+
+        //    public async Task UpdateUserAsync(UpdateUserDTOnew dto)
+        //    {
+        //        var existingUser = await db.Users.FindAsync(dto.UserId);
+
+        //        if (existingUser != null)
+        //        {
+        //            existingUser.Username = dto.Username;
+        //            existingUser.UserEmail = dto.UserEmail;
+        //            existingUser.RoleId = dto.RoleId;
+        //            existingUser.BranchId = dto.BranchId;
+        //            existingUser.UpdatedAt = DateTime.Now;
+        //            existingUser.UpdatedBy = dto.UpdatedBy;
+
+        //            if (!string.IsNullOrWhiteSpace(dto.PasswordHash))
+        //            {
+        //                existingUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
+        //            }
+
+        //            db.Users.Update(existingUser);
+        //            await db.SaveChangesAsync();
+        //        }
+        //    }
+
+
+        //    public async Task DeleteUserAsync(int id)
+        //    {
+        //        var user = await db.Users.FindAsync(id);
+        //        if (user != null)
+        //        {
+        //            db.Users.Remove(user);
+        //            await db.SaveChangesAsync();
+        //        }
+        //    }
 
 
 

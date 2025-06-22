@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PharmaAPICreation.DTO;
@@ -12,9 +13,11 @@ namespace PharmaAPICreation.Controllers
     public class AdminController : ControllerBase
     {
         IAdmin repo;
-        public AdminController(IAdmin repo)
+        private readonly IMapper mapper;
+        public AdminController(IAdmin repo, IMapper mapper)
         {
             this.repo=repo;
+            this.mapper=mapper;
         }
 
 
@@ -366,6 +369,10 @@ namespace PharmaAPICreation.Controllers
 
 
 
+
+
+
+
         [HttpPost("AddUser")]
         public IActionResult AddUser(UserCreateDTO dto)
         {
@@ -402,7 +409,7 @@ namespace PharmaAPICreation.Controllers
                 UserId = user.UserId,
                 Username = user.Username,
                 UserEmail = user.UserEmail,
-                PasswordHash= user.PasswordHash,
+                PasswordHash = user.PasswordHash,
                 RoleId = user.RoleId,
                 RoleName = user.Role.RoleName,
                 BranchId = user.BranchId,
@@ -420,7 +427,7 @@ namespace PharmaAPICreation.Controllers
         {
             var updated = new User
             {
-                
+
                 Username = dto.Username,
                 UserEmail = dto.UserEmail,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash),
@@ -448,6 +455,57 @@ namespace PharmaAPICreation.Controllers
         }
 
 
+
+
+        //[HttpPost("AddUser")]
+        //public async Task<IActionResult> AddUser(AddUserDTOnew dto)
+        //{
+        //    var user = new User
+        //    {
+        //        Username = dto.Username,
+        //        UserEmail = dto.UserEmail,
+        //        PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash),
+        //        RoleId = dto.RoleId,
+        //        BranchId = dto.BranchId,
+        //        CreatedDate = DateTime.Now,
+        //        CreatedBy = dto.CreatedBy,
+        //        UpdatedBy = dto.CreatedBy  
+        //    };
+
+        //    await repo.AddUserAsync(user);
+        //    return Ok("User Added");
+        //}
+
+
+        //[HttpGet("FetchUsers")]
+        //public async Task<IActionResult> FetchUsers()
+        //{
+        //    var data = await repo.GetAllUsersAsync();
+        //    return Ok(data);
+        //}
+
+        //[HttpGet("GetUser")]
+        //public async Task<IActionResult> GetUser(int id)
+        //{
+        //    var data = await repo.GetUserByIdAsync(id);
+        //    return Ok(data);
+        //}
+
+        //[HttpPost("UpdateUser")]
+        //public async Task<IActionResult> UpdateUser(UpdateUserDTOnew dto)
+        //{
+        //    await repo.UpdateUserAsync(dto);
+        //    return Ok("User Updated");
+        //}
+
+
+
+        //[HttpDelete("DeleteUser")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    await repo.DeleteUserAsync(id);
+        //    return Ok("User Deleted");
+        //}
 
 
 

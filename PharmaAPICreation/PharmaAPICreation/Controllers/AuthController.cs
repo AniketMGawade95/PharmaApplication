@@ -2,10 +2,14 @@
 //using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using PharmaAPICreation.DTO;
 using PharmaAPICreation.Models;
 using PharmaAPICreation.Repo;
 using PharmaAPICreation.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PharmaAPICreation.Controllers
 {
@@ -15,10 +19,12 @@ namespace PharmaAPICreation.Controllers
     {
         IAuthorization repo;
         public IMapper mapper;
-        public AuthController(IAuthorization repo, IMapper mapper)
+        IConfiguration con;
+        public AuthController(IAuthorization repo, IMapper mapper, IConfiguration con)
         {
             this.repo = repo;
             this.mapper = mapper;
+            this.con = con;
         }
 
 
@@ -95,8 +101,6 @@ namespace PharmaAPICreation.Controllers
             }
 
         }
-
-
 
 
 

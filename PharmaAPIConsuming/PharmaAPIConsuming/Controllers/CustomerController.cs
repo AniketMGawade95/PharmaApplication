@@ -44,10 +44,10 @@ namespace PharmaAPIConsuming.Controllers
         [HttpPost]
         public IActionResult AddCustomer(CustomerDTO c)
         {
-            //string? username = HttpContext.Session.GetString("Login");
+            string? username = HttpContext.Session.GetString("Login");
 
-            //customer.CreatedBy = username;
-            //customer.CreatedAt = DateTime.UtcNow;
+            c.CreatedBy = username;
+            c.CreatedAt = DateTime.UtcNow;
             string url = "https://localhost:7135/api/Customer/AddCustomer/";
 
             var json = JsonConvert.SerializeObject(c);
@@ -107,10 +107,10 @@ namespace PharmaAPIConsuming.Controllers
         [HttpPost]
         public IActionResult EditCustomer(CustomerDTO c) 
         {
-            //string? username = HttpContext.Session.GetString("Login");
+            string? username = HttpContext.Session.GetString("Login");
 
-            //customer.UpdatedBy = username;
-            //customer.UpdatedAt = DateTime.UtcNow;
+            c.UpdatedBy = username;
+            c.UpdatedAt = DateTime.UtcNow;
             string url = "https://localhost:7135/api/Customer/UpdateCustomer";
             var json = JsonConvert.SerializeObject(c);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");

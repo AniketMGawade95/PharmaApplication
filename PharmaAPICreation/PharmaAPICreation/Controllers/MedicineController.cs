@@ -58,8 +58,13 @@ namespace PharmaAPICreation.Controllers
         {
             if (id != dto.MedicineId) return BadRequest("Id mismatch");
             var medicine = medicineRepository.GetMedicineById(id);
+<<<<<<< HEAD
             if (medicine == null) return NotFound("Medicne does not exixts");
             mapper.Map(dto, medicine); // Source is dto, Target is model
+=======
+            if (medicine == null) return NotFound("Medine does not exixts");
+            mapper.Map(dto, medicine); 
+>>>>>>> d6fff5025c30bac38c49348852665c5023a80a60
             medicine.UpdatedAt = DateTime.Now;
             medicine.UpdatedBy = dto.UpdatedBy ?? "Defaultuser";
             medicineRepository.UpdateMedicine(medicine);
