@@ -97,11 +97,13 @@ namespace PharmaAPIConsuming.Controllers
 
                     if (data.Role.RoleName == "Admin")
                     {
-                        return RedirectToAction("Dashboard", "Admin");
+                        //return RedirectToAction("Dashboard", "Admin");
+                        return RedirectToAction("Index", "Reports");
                     }
                     if (data.Role.RoleName == "Pharmacist")
                     {
-                        return RedirectToAction("Index", "Pharma");
+                        //return RedirectToAction("Index", "Pharma");
+                        return RedirectToAction("Index", "Reports");
                     }
                     if (data.Role.RoleName == "Cashier")
                     {

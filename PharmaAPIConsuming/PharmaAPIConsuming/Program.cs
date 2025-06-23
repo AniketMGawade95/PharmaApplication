@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using PharmaAPIConsuming.Controllers;
 using PharmaAPIConsuming.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         option.LoginPath = "/Auth/Login";
         option.AccessDeniedPath = "/Auth/Login";
     });
+
+
+builder.Services.AddHttpClient<AdminController>();
+
+
+
+
 
 var app = builder.Build();
 

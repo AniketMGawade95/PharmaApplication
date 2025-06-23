@@ -141,8 +141,11 @@
 
 									if (User.IsInRole("Admin"))
 									{
-										<li>
+										@* <li>
 											<a asp-area="" asp-controller="Admin" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li> *@
+										<li>
+											<a asp-area="" asp-controller="Reports" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
 										</li>
 										<li>
 											<a asp-area="" asp-controller="Admin" asp-action="ManageUsers"><i class="ti ti-layout-navbar"></i><span>Users</span></a>

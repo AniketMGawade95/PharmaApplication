@@ -1,8 +1,10 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Newtonsoft.Json;
 using PharmaAPIConsuming.Data;
 using PharmaAPIConsuming.DTO;
+using Razorpay.Api;
 using System.Text;
 
 namespace PharmaAPIConsuming.Controllers
@@ -12,7 +14,7 @@ namespace PharmaAPIConsuming.Controllers
 
 
         HttpClient client;
-        
+
 
         public AdminController()
         {
@@ -21,7 +23,7 @@ namespace PharmaAPIConsuming.Controllers
 
             client = new HttpClient(clientHandler);
 
-           
+
 
 
         }
@@ -45,7 +47,7 @@ namespace PharmaAPIConsuming.Controllers
         [HttpGet]
         public IActionResult AddRole()
         {
-            
+
             return View();
         }
 
@@ -111,7 +113,7 @@ namespace PharmaAPIConsuming.Controllers
         [HttpPost]
         public IActionResult DeleteRole(int id)
         {
-            string url = $"https://localhost:7135/api/Admin/DeleteRole/{id}"; 
+            string url = $"https://localhost:7135/api/Admin/DeleteRole/{id}";
 
             HttpResponseMessage response = client.DeleteAsync(url).Result;
 
@@ -173,7 +175,7 @@ namespace PharmaAPIConsuming.Controllers
 
 
         [HttpGet]
-        public IActionResult ManageBranches()  
+        public IActionResult ManageBranches()
         {
             return View();
         }
@@ -313,7 +315,7 @@ namespace PharmaAPIConsuming.Controllers
         {
             string url = "https://localhost:7135/api/Admin/UpdateRole/" + dto.RoleId;
 
-            
+
             var updateDto = new
             {
                 RoleName = dto.RoleName
@@ -470,5 +472,40 @@ namespace PharmaAPIConsuming.Controllers
 
 
 
+
+
+        [Route("Admin/CreateOrder")]
+        [HttpPost]
+        public IActionResult CreateOrder([FromForm] double amount)
+        {
+            try
+            {
+                string keyId = "rzp_test_Kl7588Yie2yJTV";
+                string keySecret = "6dN9Nqs7M6HPFMlL45AhaTgp";
+
+                RazorpayClient client = new RazorpayClient(keyId, keySecret);
+
+                var options = new Dictionary<string, object>
+        {
+            { "amount", (int)(amount * 100) },
+            { "currency", "INR" },
+            { "receipt", "rcpt_" + Guid.NewGuid().ToString("N").Substring(0, 32) },
+            { "payment_capture", 1 }
+        };
+
+                var order = client.Order.Create(options);
+                return Json(order["id"].ToString());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Razorpay error: " + ex.Message);
+            }
+        }
+
+
+
     }
-}
+
+
+ }
+
