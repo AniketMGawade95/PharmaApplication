@@ -142,5 +142,21 @@ namespace PharmaAPIConsuming.Controllers
                 return View("Error");
             }
         }
+        public IActionResult SalesHistory()
+        {
+            List<PurchaseHistoryDTO> history = new List<PurchaseHistoryDTO>();
+            string url = "https://localhost:7135/api/Customer/FetchSales";
+
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string jsondata = response.Content.ReadAsStringAsync().Result;
+                var obj = JsonConvert.DeserializeObject<List<PurchaseHistoryDTO>>(jsondata);
+                if (obj != null)
+                    history = obj;
+            }
+
+            return View(history);
+        }
     }
 }

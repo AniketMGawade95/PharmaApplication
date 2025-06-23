@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PharmaAPICreation.Data;
@@ -20,17 +20,40 @@ namespace PharmaAPICreation.Services
             this.mapper = mapper;
         }
 
+        //public void AddCustomer(CustomerDTO dto)
+        //{
+        //    var c = mapper.Map<Customer>(dto);
+        //    //c.CreatedAt = DateTime.UtcNow;
+        //    //c.CreatedBy = dto.CreatedBy;
+        //    db.Customers.Add(c);
+        //    db.SaveChanges();
+        //}
         public void AddCustomer(CustomerDTO dto)
         {
             var c = mapper.Map<Customer>(dto);
-            //c.CreatedAt = DateTime.UtcNow;
-            //c.CreatedBy = dto.CreatedBy;
+            c.CreatedAt = DateTime.Now;
+            c.CreatedBy = "admin"; 
             db.Customers.Add(c);
             db.SaveChanges();
         }
 
+        public void UpdateCustomer(CustomerDTO dto)
+        {
+            var existing = db.Customers.Find(dto.CustomerId);
+            if (existing != null)
+            {
+                existing.Name = dto.Name;
+                existing.Mobile = dto.Mobile;
+                existing.Address = dto.Address;
+                existing.UpdatedBy = "admin";
+                existing.UpdatedAt = DateTime.Now;
+                db.SaveChanges();
+            }
+        }
 
-        
+
+
+
         public CustomerDTO SelectCustomer(int id)
         {
             var c = db.Customers.Find(id);
@@ -47,14 +70,14 @@ namespace PharmaAPICreation.Services
         }
 
 
-        public void UpdateCustomer(CustomerDTO dto)
-        {
-            var c = mapper.Map<Customer>(dto);
-            //c.UpdatedBy = dto.UpdatedBy;
-            //c.UpdatedAt = DateTime.UtcNow;
-            db.Customers.Update(c);
-            db.SaveChanges();
-        }
+        //public void UpdateCustomer(CustomerDTO dto)
+        //{
+        //    var c = mapper.Map<Customer>(dto);
+        //    //c.UpdatedBy = dto.UpdatedBy;
+        //    //c.UpdatedAt = DateTime.UtcNow;
+        //    db.Customers.Update(c);
+        //    db.SaveChanges();
+        //}
 
         public List<CustomerDTO> GetAllCustomers()
         {

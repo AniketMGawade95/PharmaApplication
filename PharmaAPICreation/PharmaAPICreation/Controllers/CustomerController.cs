@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PharmaAPICreation.Data;
 using PharmaAPICreation.DTO;
 using PharmaAPICreation.Repo;
 
@@ -10,8 +12,11 @@ namespace PharmaAPICreation.Controllers
     public class CustomerController : ControllerBase
     {
         CustomerRepo repo;
-        public CustomerController(CustomerRepo repo)
+        ApplicationDbContext db;
+
+        public CustomerController(CustomerRepo repo, ApplicationDbContext db)
         {
+             this.db=db;
             this.repo = repo;
         }
 
@@ -54,5 +59,23 @@ namespace PharmaAPICreation.Controllers
             repo.UpdateCustomer(dto);
             return Ok("Updated!!!");
         }
+        [HttpGet]
+        [Route("FetchSales")]
+        public IActionResult sales()
+        {
+            var data = db.Sales.Include(x => x.Customer).Include(x => x.SaleItems).ThenInclude(x => x.PurchaseItem).ThenInclude(x => x.Medicine).
+                SelectMany(x => x.SaleItems.Select(y => new PurchaseHistoryDTO()
+                {
+                    CustomerName = x.Customer.Name,
+                    Mobile = x.Customer.Mobile,
+                    MedicineName = y.PurchaseItem.Medicine.Name,
+                    TotalAmount = x.TotalAmount,
+                    Discount = y.Discount,
+                    Quantity = y.Quantity
+
+                })).ToList();
+            return Ok(data);
+        }
+
     }
 }

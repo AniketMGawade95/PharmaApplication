@@ -4,8 +4,6 @@ namespace PharmaAPICreation.Models
 {
     public class Branch
     {
-
-
         [Key]
         public int BranchId { get; set; }
 

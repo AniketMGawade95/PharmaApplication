@@ -12,8 +12,11 @@ namespace PharmaAPICreation.Mapper
             CreateMap<User, LoginResponseDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.RoleName));
 
             CreateMap<Customer, CustomerDTO>().ReverseMap();
+
+            CreateMap<Medicine, MedicineDTOs>().ReverseMap();
+
         }
 
-        
+
     }
 }
