@@ -334,7 +334,10 @@ namespace PharmaAPIConsuming.Controllers
         }
 
 
-
+        public IActionResult demo()
+        {
+            return View();  
+        }
 
 
 
