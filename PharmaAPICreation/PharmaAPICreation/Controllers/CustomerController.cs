@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< Updated upstream
 using Microsoft.EntityFrameworkCore;
+=======
+>>>>>>> Stashed changes
 using PharmaAPICreation.Data;
 using PharmaAPICreation.DTO;
 using PharmaAPICreation.Repo;
@@ -11,6 +14,7 @@ namespace PharmaAPICreation.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+<<<<<<< Updated upstream
         CustomerRepo repo;
         ApplicationDbContext db;
 
@@ -58,17 +62,63 @@ namespace PharmaAPICreation.Controllers
         {
             repo.UpdateCustomer(dto);
             return Ok("Updated!!!");
+=======
+        private readonly ICustomerRepository repo;
+        private readonly ApplicationDbContext db;
+        public CustomerController(ICustomerRepository repo, ApplicationDbContext db)
+        {
+            this.repo = repo;
+            this.db = db;   
+        }
+        [HttpPost]
+        [Route("AddCustomer")]
+        public IActionResult AddCustomer(CustomerDTO customer)
+        {
+            repo.AddCustomer(customer);
+            return Ok("Customer Added Successfully");
+        }
+        [HttpGet]
+        [Route("GetAllCustomer")]
+        public IActionResult GetAllCustomer()
+        {
+            var data = repo.GetAll();
+            return Ok(data);
+        }
+        [HttpPut]
+        [Route("UpdateCustomr")]
+        public IActionResult UpdateCustomer(CustomerDTO customer)
+        {
+            repo.UpdateCustomer(customer);
+            return Ok("Customer Added successfully");
+        }
+        [HttpDelete]
+        [Route("DeleteCustomerById{/id}")]
+        public IActionResult DeleteCustomer(int id)
+        {
+            repo.DeleteCustomer(id);
+            return Ok("Customer Deleted Successfully");
+
+>>>>>>> Stashed changes
         }
         [HttpGet]
         [Route("FetchSales")]
         public IActionResult sales()
         {
+<<<<<<< Updated upstream
             var data = db.Sales.Include(x => x.Customer).Include(x => x.SaleItems).ThenInclude(x => x.PurchaseItem).ThenInclude(x => x.Medicine).
                 SelectMany(x => x.SaleItems.Select(y => new PurchaseHistoryDTO()
                 {
                     CustomerName = x.Customer.Name,
                     Mobile = x.Customer.Mobile,
                     MedicineName = y.PurchaseItem.Medicine.Name,
+=======
+            var data = db.Sales.Include(x => x.Customer).Include(x => x.SaleItems).ThenInclude(x => x.Medicine).
+                SelectMany(x => x.SaleItems.Select(y => new PurchaseHistoryDTO()
+                {
+                    CustomerName = x.CustomerName,
+                    Mobile = x.Customer.Mobile,
+                    MedicineName = y.Medicine.Name,
+>>>>>>> Stashed changes
                     TotalAmount = x.TotalAmount,
                     Discount = y.Discount,
                     Quantity = y.Quantity
@@ -76,6 +126,9 @@ namespace PharmaAPICreation.Controllers
                 })).ToList();
             return Ok(data);
         }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     }
 }

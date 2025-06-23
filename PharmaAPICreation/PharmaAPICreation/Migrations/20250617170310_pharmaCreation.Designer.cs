@@ -12,15 +12,15 @@ using PharmaAPICreation.Data;
 namespace PharmaAPICreation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614111901_tablesadded")]
-    partial class tablesadded
+    [Migration("20250617170310_pharmaCreation")]
+    partial class pharmaCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.6")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -94,6 +94,10 @@ namespace PharmaAPICreation.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

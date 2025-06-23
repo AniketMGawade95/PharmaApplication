@@ -8,6 +8,9 @@
         public decimal TotalAmount { get; set; }
         public int Quantity { get; set; }
         public decimal Discount { get; set; }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     }
 }
