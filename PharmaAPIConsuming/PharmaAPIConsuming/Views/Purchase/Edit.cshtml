@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Edit Purchase";
 }
-
+@{
+    Layout = "_Layout";
+}
 <form method="post" asp-action="Edit" asp-controller="Purchase" asp-route-id="@ViewBag.PurchaseId">
     <div class="mb-3">
         <label asp-for="InvoiceNo"></label>

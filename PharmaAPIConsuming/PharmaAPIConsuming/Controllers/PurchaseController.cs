@@ -12,34 +12,34 @@ namespace PharmaAPIConsuming.Controllers
     {
         HttpClient client = new HttpClient();
 
-        //private void LoadDropdowns()
-        //{
-        //    // Load Suppliers
-        //    var supplierResponse = client.GetAsync("https://localhost:7045/api/Supplier").Result;
-        //    if (supplierResponse.IsSuccessStatusCode)
-        //    {
-        //        var json = supplierResponse.Content.ReadAsStringAsync().Result;
-        //        var list = JsonConvert.DeserializeObject<List<Supplier>>(json);
-        //        ViewBag.Suppliers = list.Select(s => new SelectListItem
-        //        {
-        //            Value = s.SupplierId.ToString(),
-        //            Text = s.Name
-        //        }).ToList();
-        //    }
+        private void LoadDropdowns()
+        {
+            // Load Suppliers
+            var supplierResponse = client.GetAsync("https://localhost:7135/api/Supplier").Result;
+            if (supplierResponse.IsSuccessStatusCode)
+            {
+                var json = supplierResponse.Content.ReadAsStringAsync().Result;
+                var list = JsonConvert.DeserializeObject<List<Supplier>>(json);
+                ViewBag.Suppliers = list.Select(s => new SelectListItem
+                {
+                    Value = s.SupplierId.ToString(),
+                    Text = s.Name
+                }).ToList();
+            }
 
-        //    // Load Branches
-        //    var branchResponse = client.GetAsync("https://localhost:7045/api/Branch").Result;
-        //    if (branchResponse.IsSuccessStatusCode)
-        //    {
-        //        var json = branchResponse.Content.ReadAsStringAsync().Result;
-        //        var list = JsonConvert.DeserializeObject<List<Branch>>(json);
-        //        ViewBag.Branches = list.Select(b => new SelectListItem
-        //        {
-        //            Value = b.BranchId.ToString(),
-        //            Text = b.BranchName
-        //        }).ToList();
-        //    }
-        //}
+            // Load Branches
+            var branchResponse = client.GetAsync("https://localhost:7135/api/Branch").Result;
+            if (branchResponse.IsSuccessStatusCode)
+            {
+                var json = branchResponse.Content.ReadAsStringAsync().Result;
+                var list = JsonConvert.DeserializeObject<List<Branch>>(json);
+                ViewBag.Branches = list.Select(b => new SelectListItem
+                {
+                    Value = b.BranchId.ToString(),
+                    Text = b.BranchName
+                }).ToList();
+            }
+        }
 
         public IActionResult Index()
         {
@@ -63,7 +63,7 @@ namespace PharmaAPIConsuming.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            //LoadDropdowns();
+            LoadDropdowns();
             return View();
         }
 
@@ -83,20 +83,20 @@ namespace PharmaAPIConsuming.Controllers
             ViewBag.Branches = new SelectList( "BranchId", "BranchName");
 
 
-            //LoadDropdowns();
+            LoadDropdowns();
             return View(dto);
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            //LoadDropdowns();
+            LoadDropdowns();
             ViewBag.PurchaseId = id;
           
 
 
             PurchaseUpdateDTO dto = new PurchaseUpdateDTO();
-            string url = "https://localhost:7045/api/Purchase/"+id;
+            string url = "https://localhost:7135/api/Purchase/"+id;
 
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -129,13 +129,13 @@ namespace PharmaAPIConsuming.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
-            //LoadDropdowns();
+            LoadDropdowns();
             return View(dto);
         }
 
         public IActionResult Delete(int id)
         {
-            string url = "https://localhost:7045/api/Purchase/"+id;
+            string url = "https://localhost:7135/api/Purchase/"+id;
             HttpResponseMessage response = client.DeleteAsync(url).Result;
 
             if (response.IsSuccessStatusCode)

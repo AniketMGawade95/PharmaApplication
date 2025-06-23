@@ -91,21 +91,21 @@ namespace PharmaAPIConsuming.Controllers
         private void LoadDropdowns(int selectedMedId = 0, int selectedBranchId = 0)
         {
             // Medicines
-            var medicineResponse = client.GetAsync("https://localhost:7135/api/Medicine").Result;
+            var medicineResponse = client.GetAsync("https://localhost:7135/api/Medicine/GetAllMed").Result;
             if (medicineResponse.IsSuccessStatusCode)
             {
                 var json = medicineResponse.Content.ReadAsStringAsync().Result;
-                var list = JsonConvert.DeserializeObject<List<MedicineDTO>>(json);
-                ViewBag.Medicines = new SelectList(list, "MedicineId", "MedicineName", selectedMedId);
+                var list = JsonConvert.DeserializeObject<List<MedicineReadDTO>>(json);
+                ViewBag.Medicine= new SelectList(list, "MedicineId", "Name", selectedMedId);
             }
 
             // Branches
-            var branchResponse = client.GetAsync("https://localhost:7/ap135i/Branch").Result;
+            var branchResponse = client.GetAsync("https://localhost:7135/api/Admin/FetchBranches").Result;
             if (branchResponse.IsSuccessStatusCode)
             {
                 var json = branchResponse.Content.ReadAsStringAsync().Result;
-                var list = JsonConvert.DeserializeObject<List<Branch>>(json);
-                ViewBag.Branches = new SelectList(list, "BranchId", "BranchName", selectedBranchId);
+                var list = JsonConvert.DeserializeObject<List<BranchDTO>>(json);
+                ViewBag.Branch = new SelectList(list, "BranchId", "BranchName", selectedBranchId);
             }
         }
     }

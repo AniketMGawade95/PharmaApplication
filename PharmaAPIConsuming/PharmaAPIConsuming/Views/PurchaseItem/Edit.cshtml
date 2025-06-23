@@ -1,5 +1,8 @@
 ﻿@model PharmaAPIConsuming.DTO.PurchaseItemUpdateDTO
 @{
+    Layout = "_Layout";
+}
+@{
     ViewBag.Title = "Edit Purchase Item";
     var medicines = ViewBag.Medicines as List<SelectListItem>;
     var branches = ViewBag.Branches as List<SelectListItem>;

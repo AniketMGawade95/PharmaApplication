@@ -164,8 +164,18 @@
 											<a asp-area="" asp-controller="Admin" asp-action="ManageBranches"><i class="ti ti-layout-navbar"></i><span>Branch</span></a>
 										</li>
 										<li>
+											<a asp-area="" asp-controller="Medicine" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Medicine</span></a>
+										</li>
+										<li>
 											<a asp-area="" asp-controller="Admin" asp-action="ManageSuppliers"><i class="ti ti-layout-navbar"></i><span>Suppliers</span></a>
 										</li>
+										<li>
+											<a asp-area="" asp-controller="Purchase" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Purchase</span></a>
+										</li>
+										<li>
+											<a asp-area="" asp-controller="PurchaseItem" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>PurchaseItem</span></a>
+										</li>
+
 
 									}
 									if (User.IsInRole("Pharmacist"))
