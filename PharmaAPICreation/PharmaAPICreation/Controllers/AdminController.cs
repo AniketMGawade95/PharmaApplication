@@ -506,11 +506,7 @@ namespace PharmaAPICreation.Controllers
         //    await repo.DeleteUserAsync(id);
         //    return Ok("User Deleted");
         //}
-        
 
-
-
-       
 
 
 
