@@ -45,7 +45,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<CustomerRepo, CustomerServices>();
 
 //Add JWT Authentication Configuration
+//<<<<<<< HEAD
 //var jwtSettings = builder.Configuration.GetSection("Jwt");
+//=======
+//var jwtSettings = builder.Configuration.GetSection("Jwt");
+//>>>>>>> ce74de8cf007c3e2c1e0a4bee1d7141d6db64c69
 //var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
 //builder.Services.AddAuthentication(options =>
@@ -63,7 +67,11 @@ builder.Services.AddScoped<CustomerRepo, CustomerServices>();
 //        ValidateIssuerSigningKey = true,
 //        ValidIssuer = jwtSettings["Issuer"],
 //        ValidAudience = jwtSettings["Audience"],
+//<<<<<<< HEAD
 //        IssuerSigningKey = new SymmetricSecurityKey(key)
+//=======
+//        //IssuerSigningKey = new SymmetricSecurityKey(key)
+//>>>>>>> ce74de8cf007c3e2c1e0a4bee1d7141d6db64c69
 //    };
 //});
 
