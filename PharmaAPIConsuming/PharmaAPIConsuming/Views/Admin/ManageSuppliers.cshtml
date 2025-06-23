@@ -1,0 +1,215 @@
+﻿@{
+    ViewData["Title"] = "Manage Suppliers";
+    Layout = "_Layout";
+}
+
+
+<link href="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.3.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.1.1/cc-1.0.5/date-1.5.5/fc-5.0.4/fh-4.0.3/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.1/sr-1.4.1/datatables.min.css" rel="stylesheet" integrity="sha384-COTvLrRQ3Wx22EXFNmowGpLebPP1VDKj36mmQ8tIHGMVfN9svObjBGSu/KyDhAXq" crossorigin="anonymous">
+
+
+
+<h2 class="mb-3">Supplier Management</h2>
+
+<button class="btn btn-success mb-3" id="openModal">Add Supplier</button>
+
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="supplierData"></tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="supplierModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="supplierForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add / Edit Supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="SupplierId" name="SupplierId" />
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Name</label>
+                        <input type="text" id="Name" name="Name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Contact" class="form-label">Contact</label>
+                        <input type="text" id="Contact" name="Contact" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Address" class="form-label">Address</label>
+                        <input type="text" id="Address" name="Address" class="form-control" />
+                    </div>
+                </div>
+               @*  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveSupplierBtn">Save</button>
+                </div> *@
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addSupplierBtn">Save</button>
+                    <button type="button" class="btn btn-primary" id="updateSupplierBtn" style="display:none;">Update</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.3.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.1.1/cc-1.0.5/date-1.5.5/fc-5.0.4/fh-4.0.3/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.1/sr-1.4.1/datatables.min.js"
+            integrity="sha384-sk5ouhyMD++8NoW6ZZXMnaxpnEPUQPrlznUrRT+8CZZsq9FVzQL/OtIoM8oKoM6G"
+            crossorigin="anonymous">
+    </script>
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable(); 
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            loadSuppliers();
+
+            // Open modal for Add
+            $("#openModal").click(function () {
+                resetForm();
+                $("#supplierModal").modal("show");
+                $("#addSupplierBtn").show();
+                $("#updateSupplierBtn").hide();
+            });
+
+            // Handle Add
+            $("#addSupplierBtn").click(function () {
+                var form = $("#supplierForm").serialize();
+
+                $.ajax({
+                    url: "/Admin/AddSupplier",
+                    type: "POST",
+                    data: form,
+                    success: function () {
+                        $("#supplierModal").modal("hide");
+                        loadSuppliers();
+                        resetForm();
+                    },
+                    error: function () {
+                        alert("Error adding supplier");
+                    }
+                });
+            });
+
+            // Handle Update
+            $("#updateSupplierBtn").click(function () {
+                var form = $("#supplierForm").serialize();
+
+                $.ajax({
+                    url: "/Admin/UpdateSupplier",
+                    type: "POST",
+                    data: form,
+                    success: function () {
+                        $("#supplierModal").modal("hide");
+                        loadSuppliers();
+                        resetForm();
+                    },
+                    error: function () {
+                        alert("Error updating supplier");
+                    }
+                });
+            });
+        });
+
+        function resetForm() {
+            $("#supplierForm")[0].reset();
+            $("#SupplierId").val("");
+            $("#addSupplierBtn").show();
+            $("#updateSupplierBtn").hide();
+        }
+
+        function loadSuppliers() {
+            $.ajax({
+                url: "/Admin/FetchSuppliers",
+                type: "GET",
+                success: function (data) {
+                    let html = "";
+                    $.each(data, function (i, s) {
+                        html += `<tr>
+                            <td>${s.supplierId}</td>
+                            <td>${s.name}</td>
+                            <td>${s.contact}</td>
+                            <td>${s.address}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="editSupplier(${s.supplierId})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteSupplier(${s.supplierId})">Delete</button>
+                            </td>
+                        </tr>`;
+                    });
+                    $("#supplierData").html(html);
+                },
+                error: function () {
+                    alert("Error loading suppliers");
+                }
+            });
+        }
+
+        function editSupplier(id) {
+            $.ajax({
+                url: "/Admin/GetSupplierById?id=" + id,
+                type: "GET",
+                success: function (data) {
+                    $("#SupplierId").val(data.supplierId);
+                    $("#Name").val(data.name);
+                    $("#Contact").val(data.contact);
+                    $("#Address").val(data.address);
+
+                    $("#supplierModal").modal("show");
+                    $("#addSupplierBtn").hide();
+                    $("#updateSupplierBtn").show();
+                },
+                error: function () {
+                    alert("Failed to load supplier");
+                }
+            });
+        }
+
+        function deleteSupplier(id) {
+            if (confirm("Are you sure you want to delete this supplier?")) {
+                $.ajax({
+                    url: "/Admin/DeleteSupplier?id=" + id,
+                    type: "GET",
+                    success: function () {
+                        loadSuppliers();
+                    },
+                    error: function () {
+                        alert("Error deleting supplier");
+                    }
+                });
+            }
+        }
+    </script>
+}

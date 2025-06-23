@@ -51,8 +51,9 @@
 
     <!-- Main CSS -->
 	<link rel="stylesheet" href="~/content/assets/css/style.css">
-    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PharmaAPIConsuming.styles.css" asp-append-version="true" />
+
 </head>
 
 
@@ -140,9 +141,45 @@
 
 									if (User.IsInRole("Admin"))
 									{
-										<li>
+										@* <li>
 											<a asp-area="" asp-controller="Admin" asp-action="Dashboard"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
+										</li> *@
+										<li>
+											<a asp-area="" asp-controller="Reports" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Dashboard</span></a>
 										</li>
+										<li>
+											<a asp-area="" asp-controller="Admin" asp-action="ManageUsers"><i class="ti ti-layout-navbar"></i><span>Users</span></a>
+										</li>
+										
+										<li class="submenu">
+											<a href="javascript:void(0);"><i class="ti ti-layout-navbar"></i><span>Add Role</span>
+												<span class="menu-arrow"></span>
+											</a>
+											<ul>
+												<li><a asp-controller="Admin" asp-action="AddRole" ><i class="ti ti-layout-navbar"></i><span>Add Role</span></a></li>
+												<li><a asp-controller="Admin" asp-action="viewRoles" ><i class="ti ti-layout-navbar"></i><span>View Roles</span></a></li>
+														
+														
+											</ul>
+										</li>
+
+										<li>
+											<a asp-area="" asp-controller="Admin" asp-action="ManageBranches"><i class="ti ti-layout-navbar"></i><span>Branch</span></a>
+										</li>
+										<li>
+											<a asp-area="" asp-controller="Medicine" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Medicine</span></a>
+										</li>
+										<li>
+											<a asp-area="" asp-controller="Admin" asp-action="ManageSuppliers"><i class="ti ti-layout-navbar"></i><span>Suppliers</span></a>
+										</li>
+										<li>
+											<a asp-area="" asp-controller="Purchase" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>Purchase</span></a>
+										</li>
+										<li>
+											<a asp-area="" asp-controller="PurchaseItem" asp-action="Index"><i class="ti ti-layout-navbar"></i><span>PurchaseItem</span></a>
+										</li>
+
+
 									}
 									if (User.IsInRole("Pharmacist"))
 									{
@@ -230,16 +267,16 @@
 
 			</div>
 
-			<div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
-				<p class="mb-0">2024 - 2025 &copy; PharmaSuits.</p>
-				<p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
-			</div>
+			
 
 		</div>
 		<!-- /Page Wrapper -->
 
+		
+
 	</div>
 	<!-- /Main Wrapper -->
+	
 	<!-- jQuery -->
 	<script src="~/content/assets/js/jquery-3.7.1.min.js"></script>
 

@@ -33,6 +33,10 @@ namespace PharmaAPICreation.Services
             var c = mapper.Map<Customer>(dto);
             c.CreatedAt = DateTime.Now;
             c.CreatedBy = "admin"; 
+
+            c.CreatedAt = DateTime.UtcNow;
+            c.CreatedBy = dto.CreatedBy;
+
             db.Customers.Add(c);
             db.SaveChanges();
         }
@@ -70,6 +74,7 @@ namespace PharmaAPICreation.Services
         }
 
 
+
         //public void UpdateCustomer(CustomerDTO dto)
         //{
         //    var c = mapper.Map<Customer>(dto);
@@ -78,6 +83,16 @@ namespace PharmaAPICreation.Services
         //    db.Customers.Update(c);
         //    db.SaveChanges();
         //}
+
+        public void UpdateCustomer(CustomerDTO dto)
+        {
+            var c = mapper.Map<Customer>(dto);
+            c.UpdatedBy = dto.UpdatedBy;
+            c.UpdatedAt = DateTime.UtcNow;
+            db.Customers.Update(c);
+            db.SaveChanges();
+        }
+
 
         public List<CustomerDTO> GetAllCustomers()
         {

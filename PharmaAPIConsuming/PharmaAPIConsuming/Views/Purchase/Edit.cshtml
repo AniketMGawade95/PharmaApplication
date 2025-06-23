@@ -1,0 +1,42 @@
+﻿@model PharmaAPIConsuming.Models.PurchaseUpdateDTO
+@{
+    ViewBag.Title = "Edit Purchase";
+}
+@{
+    Layout = "_Layout";
+}
+<form method="post" asp-action="Edit" asp-controller="Purchase" asp-route-id="@ViewBag.PurchaseId">
+    <div class="mb-3">
+        <label asp-for="InvoiceNo"></label>
+        <input asp-for="InvoiceNo" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TotalAmount"></label>
+        <input asp-for="TotalAmount" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PurchaseDate"></label>
+        <input asp-for="PurchaseDate" class="form-control" type="date" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SupplierId"></label>
+        <select asp-for="SupplierId" class="form-select" asp-items="ViewBag.Suppliers">
+            <option value="">-- Select Supplier --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BranchId"></label>
+        <select asp-for="BranchId" class="form-select" asp-items="ViewBag.Branches">
+            <option value="">-- Select Branch --</option>
+        </select>
+    </div>
+
+    <input type="hidden" asp-for="UpdatedBy" value="admin" />
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

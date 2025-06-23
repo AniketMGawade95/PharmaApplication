@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using PharmaAPIConsuming.Controllers;
 using PharmaAPIConsuming.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         option.AccessDeniedPath = "/Auth/Login";
     });
 
+
+builder.Services.AddHttpClient<AdminController>();
+
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +52,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -53,6 +62,10 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
+
     pattern: "{controller=BuyMedicine}/{action=BuyMedicine}/{id?}");  //Auth and Login
+
+    pattern: "{controller=Auth}/{action=Login}/{id?}");  //Auth and Login
+
 
 app.Run();

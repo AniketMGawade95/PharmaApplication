@@ -1,0 +1,177 @@
+﻿@{
+    ViewData["Title"] = "Manage Branches";
+    Layout = "_Layout";
+}
+
+
+
+<link href="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.3.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.1.1/cc-1.0.5/date-1.5.5/fc-5.0.4/fh-4.0.3/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.1/sr-1.4.1/datatables.min.css" rel="stylesheet" integrity="sha384-COTvLrRQ3Wx22EXFNmowGpLebPP1VDKj36mmQ8tIHGMVfN9svObjBGSu/KyDhAXq" crossorigin="anonymous">
+
+
+
+
+<h2 class="mb-3">Branch Management</h2>
+
+<button class="btn btn-success mb-3" id="openModal">Add Branch</button>
+
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="branchData"></tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="branchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="branchForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add / Edit Branch</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="BranchId" name="BranchId" />
+                    <div class="mb-3">
+                        <label for="BranchName" class="form-label">Branch Name</label>
+                        <input type="text" id="BranchName" name="BranchName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="BranchAddress" class="form-label">Branch Address</label>
+                        <input type="text" id="BranchAddress" name="BranchAddress" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveBranchBtn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.3.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.1.1/cc-1.0.5/date-1.5.5/fc-5.0.4/fh-4.0.3/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.1/sr-1.4.1/datatables.min.js"
+            integrity="sha384-sk5ouhyMD++8NoW6ZZXMnaxpnEPUQPrlznUrRT+8CZZsq9FVzQL/OtIoM8oKoM6G"
+            crossorigin="anonymous">
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable(); // Apply to your roles table
+        });
+    </script>
+
+
+
+    <script>
+        const baseUrl = "https://localhost:7135/api/Admin/";
+
+        $(document).ready(function () {
+            loadBranches();
+
+            $("#openModal").click(function () {
+                resetForm();
+                $("#branchModal").modal("show");
+            });
+
+            $("#saveBranchBtn").click(function () {
+                var form = $("#branchForm").serialize();
+                var id = $("#BranchId").val();
+                var url = id ? "/Admin/UpdateBranch" : "/Admin/AddBranch";
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: form,
+                    success: function () {
+                        $("#branchModal").modal("hide");
+                        loadBranches();
+                        resetForm();
+                    },
+                    error: function () {
+                        alert("Error saving branch");
+                    }
+                });
+            });
+        });
+
+        function resetForm() {
+            $("#branchForm")[0].reset();
+            $("#BranchId").val("");
+            $("#saveBranchBtn").text("Save");
+        }
+
+        function loadBranches() {
+            $.ajax({
+                url: "/Admin/FetchBranches",
+                type: "GET",
+                 datatype: "json",
+                 contentType: "Application/json;charset=utf-8",
+                success: function (data) {
+                    let html = "";
+                    $.each(data, function (i, b) {
+                        html += `<tr>
+                            <td>${b.branchId}</td>
+                            <td>${b.branchName}</td>
+                            <td>${b.branchAddress}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="editBranch(${b.branchId})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteBranch(${b.branchId})">Delete</button>
+                            </td>
+                        </tr>`;
+                    });
+                    $("#branchData").html(html);
+                },
+                error: function () {
+                    alert("Error loading branches");
+                }
+            });
+        }
+
+        function editBranch(id) {
+            $.ajax({
+                url: "/Admin/GetBranchById?branchId=" + id,
+                type: "GET",
+                success: function (data) {
+                    $("#BranchId").val(data.branchId);
+                    $("#BranchName").val(data.branchName);
+                    $("#BranchAddress").val(data.branchAddress);
+                    $("#branchModal").modal("show");
+                    $("#saveBranchBtn").text("Update");
+                },
+                error: function () {
+                    alert("Failed to load branch");
+                }
+            });
+        }
+
+        function deleteBranch(id) {
+            if (confirm("Are you sure you want to delete this branch?")) {
+                $.ajax({
+                    url: "/Admin/DeleteBranch?branchId=" + id,
+                    type: "GET",
+                    success: function () {
+                        loadBranches();
+                    },
+                    error: function () {
+                        alert("Error deleting branch");
+                    }
+                });
+            }
+        }
+    </script>
+}

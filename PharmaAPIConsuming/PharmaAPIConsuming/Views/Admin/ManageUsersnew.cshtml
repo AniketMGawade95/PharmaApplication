@@ -1,0 +1,221 @@
+﻿@{
+    ViewData["Title"] = "Manage Users";
+    Layout = "_Layout";
+}
+
+<h2 class="mb-3">User Management</h2>
+<button class="btn btn-success mb-3" id="openModal">Add User</button>
+
+<table class="table table-bordered" id="userTable">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Branch</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="userData"></tbody>
+</table>
+
+<!-- User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="userForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add / Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="UserId" />
+                    <input type="hidden" id="CreatedBy" />
+                    <input type="hidden" id="UpdatedBy" />
+
+                    <div class="mb-3">
+                        <label>Username</label>
+                        <input type="text" class="form-control" id="Username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="UserEmail" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="PasswordHash" />
+                        <small class="text-muted">Leave blank if not changing</small>
+                    </div>
+                    <div class="mb-3">
+                        <label>Role</label>
+                        <select id="RoleId" class="form-select" required></select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Branch</label>
+                        <select id="BranchId" class="form-select" required></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="button" id="saveUserBtn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const baseUrl = "https://localhost:7135/api/Admin/";
+
+        $(document).ready(function () {
+            loadUsers();
+            loadRoles();
+            loadBranches();
+
+            $("#openModal").click(function () {
+                resetForm();
+                $("#userModal").modal("show");
+            });
+
+                    $("#saveUserBtn").click(function () {
+            const userId = $("#UserId").val();
+            const url = userId ? "/Admin/UpdateUser" : "/Admin/AddUser";
+            const dto = {
+                UserId: userId,
+                Username: $("#Username").val(),
+                UserEmail: $("#UserEmail").val(),
+                PasswordHash: $("#PasswordHash").val(),
+                RoleId: parseInt($("#RoleId").val()),
+                BranchId: parseInt($("#BranchId").val()),
+                CreatedBy: userId ? "" : "Admin",
+                UpdatedBy: "Admin"
+            };
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(dto),
+                success: function () {
+                    $("#userModal").modal("hide");
+                    loadUsers();
+                    resetForm();
+                },
+                error: function (xhr) {
+                    alert("Error saving user\n" + xhr.responseText);
+                }
+            });
+        });
+
+        });
+
+        function resetForm() {
+            $("#userForm")[0].reset();
+            $("#UserId").val("");
+            $("#CreatedBy").val("");
+            $("#UpdatedBy").val("");
+            $("#saveUserBtn").text("Save");
+        }
+
+        function loadUsers() {
+            $.ajax({
+                url: "/Admin/FetchUsers",
+                type: "GET",
+                success: function (data) {
+                    let html = "";
+                    $.each(data, function (i, user) {
+                        html += `<tr>
+                            <td>${user.userId}</td>
+                            <td>${user.username}</td>
+                            <td>${user.userEmail}</td>
+                            <td>${user.roleName}</td>
+                            <td>${user.branchName}</td>
+                            <td>${formatDate(user.createdDate)}</td>
+                            <td>${formatDate(user.updatedAt)}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="editUser(${user.userId})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.userId})">Delete</button>
+                            </td>
+                        </tr>`;
+                    });
+                    $("#userData").html(html);
+                },
+                error: function () {
+                    alert("Failed to load users");
+                }
+            });
+        }
+
+        function loadRoles() {
+            $.ajax({
+                url: "/Admin/FetchRoles",
+                type: "GET",
+                success: function (roles) {
+                    $("#RoleId").html('<option disabled selected>Select Role</option>');
+                    $.each(roles, function (i, r) {
+                        $("#RoleId").append(`<option value="${r.roleId}">${r.roleName}</option>`);
+                    });
+                }
+            });
+        }
+
+        function loadBranches() {
+            $.ajax({
+                url: "/Admin/FetchBranches",
+                type: "GET",
+                success: function (branches) {
+                    $("#BranchId").html('<option disabled selected>Select Branch</option>');
+                    $.each(branches, function (i, b) {
+                        $("#BranchId").append(`<option value="${b.branchId}">${b.branchName}</option>`);
+                    });
+                }
+            });
+        }
+
+        function editUser(id) {
+            $.ajax({
+                url: "/Admin/GetUserById?userId=" + id,
+                type: "GET",
+                success: function (data) {
+                    $("#UserId").val(data.userId);
+                    $("#Username").val(data.username);
+                    $("#UserEmail").val(data.userEmail);
+                    $("#PasswordHash").val("");
+                    $("#RoleId").val(data.roleId);
+                    $("#BranchId").val(data.branchId);
+                    $("#UpdatedBy").val("Admin");
+                    $("#userModal").modal("show");
+                    $("#saveUserBtn").text("Update");
+                },
+                error: function () {
+                    alert("Error fetching user data");
+                }
+            });
+        }
+
+        function deleteUser(id) {
+            if (confirm("Are you sure you want to delete this user?")) {
+                $.ajax({
+                    url: "/Admin/DeleteUser?userId=" + id,
+                    type: "GET",
+                    success: function () {
+                        loadUsers();
+                    },
+                    error: function () {
+                        alert("Error deleting user");
+                    }
+                });
+            }
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return "";
+            const date = new Date(dateStr);
+            return date.toLocaleString();
+        }
+    </script>
+}

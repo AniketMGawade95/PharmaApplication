@@ -1,52 +1,9 @@
-﻿@* @model PharmaAPIConsuming.DTO.CustomerDTO *@
-
-@* @{ *@
-@*     ViewData["Title"] = "AddCustomer"; *@
-@* } *@
-
-@* <h1>AddCustomer</h1> *@
-
-@* <h4>CustomerDTO</h4> *@
-@* <hr /> *@
-@* <div class="row"> *@
-@*     <div class="col-md-4"> *@
-@*         <form asp-action="AddCustomer"> *@
-@*             <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
-            
-@*             <div class="form-group"> *@
-@*                 <label asp-for="Name" class="control-label"></label> *@
-@*                 <input asp-for="Name" class="form-control" /> *@
-@*                 <span asp-validation-for="Name" class="text-danger"></span> *@
-@*             </div> *@
-@*             <div class="form-group"> *@
-@*                 <label asp-for="Mobile" class="control-label"></label> *@
-@*                 <input asp-for="Mobile" class="form-control" /> *@
-@*                 <span asp-validation-for="Mobile" class="text-danger"></span> *@
-@*             </div> *@
-@*             <div class="form-group"> *@
-@*                 <label asp-for="Address" class="control-label"></label> *@
-@*                 <input asp-for="Address" class="form-control" /> *@
-@*                 <span asp-validation-for="Address" class="text-danger"></span> *@
-@*             </div> *@
-@*             <div class="form-group"> *@
-@*                 <input type="submit" value="Create" class="btn btn-primary" /> *@
-@*             </div> *@
-@*         </form> *@
-@*     </div> *@
-@* </div> *@
-
-@* <div> *@
-@*     <a asp-action="Index">Back to List</a> *@
-@* </div> *@
-
-@* @section Scripts { *@
-@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
-@* } *@
-@model PharmaAPIConsuming.DTO.CustomerDTO
+﻿@model PharmaAPIConsuming.DTO.CustomerDTO
 
 @{
     ViewData["Title"] = "Add Customer";
 }
+
 
 <div class="container mt-4">
     <h2 class="mb-4">➕ Add New Customer</h2>
@@ -75,6 +32,53 @@
         <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
     </form>
 </div>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4 border-0">
+                <div class="card-header bg-success text-white rounded-top-4">
+                    <h3 class="mb-0 text-center">Add New Customer</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="AddCustomer">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold">Customer Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter full name" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Mobile" class="form-label fw-semibold">Mobile Number</label>
+                            <input asp-for="Mobile" class="form-control" placeholder="10-digit mobile number" />
+                            <span asp-validation-for="Mobile" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label fw-semibold">Address</label>
+                            <input asp-for="Address" class="form-control" placeholder="Residential address" />
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <input type="submit" value="Create Customer" class="btn btn-success btn-lg rounded-pill" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">
+                    ← Back to Customer List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @{

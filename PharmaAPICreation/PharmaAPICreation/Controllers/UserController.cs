@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmaAPICreation.Repo;
+using PharmaAPICreation.Services;
 
 namespace PharmaAPICreation.Controllers
 {

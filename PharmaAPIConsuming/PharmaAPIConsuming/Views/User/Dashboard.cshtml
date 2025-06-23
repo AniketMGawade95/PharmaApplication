@@ -1,8 +1,118 @@
 ﻿@{
     Layout = "_Layout";
 }
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
+
 @{
+    ViewData["Title"] = "Medicine List";
+}
+
+<!-- Razorpay script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<h2 class="mb-4">Medicines</h2>
+
+<div class="row" id="medicineContainer">
+    <!-- AJAX cards will be injected here -->
+</div>
+
+<div class="text-center mt-4">
+    <button id="loadMoreBtn" class="btn btn-primary">Load More</button>
+</div>
+
+@section Scripts {
+    <script>
+        let currentPage = 1;
+        const pageSize = 9;
+
+        $(document).ready(function () {
+            loadMedicines();
+
+            $('#loadMoreBtn').on('click', function () {
+                currentPage++;
+                loadMedicines();
+            });
+        });
+
+        function loadMedicines() {
+            $.ajax({
+                url: '/Medicine/GetAllMedicine',
+                method: 'GET',
+                success: function (data) {
+                    const paginated = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+                    if (paginated.length === 0) {
+                        $('#loadMoreBtn').hide();
+                        return;
+                    }
+
+                    paginated.forEach(function (med) {
+                        const card = `
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${med.name}</h5>
+                                    <p class="card-text">
+                                        <strong>Category:</strong> ${med.category}<br>
+                                        <strong>GST Rate:</strong> ${med.gstRate}%<br>
+                                        <strong>Created By:</strong> ${med.createdBy}<br>
+                                        <strong>Created At:</strong> ${new Date(med.createdAt).toLocaleDateString()}
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="addToCart('${med.name}')">Add to Cart</button>
+                                        <button class="btn btn-success btn-sm" onclick="buyNow(${med.gstRate})">Buy Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                        $('#medicineContainer').append(card);
+                    });
+                },
+                error: function () {
+                    alert("Failed to load medicines.");
+                }
+            });
+        }
+
+        function addToCart(name) {
+            alert(`${name} added to cart (dummy)`);
+        }
+
+        function buyNow(gstRate) {
+            let amount = gstRate * 10; 
+
+            $.ajax({
+                url: '/Admin/CreateOrder',
+                type: 'POST',
+                data: { amount: amount },
+                success: function (orderId) {
+                    var options = {
+                        "key": "rzp_test_Kl7588Yie2yJTV",
+                        "amount": amount * 100,
+                        "currency": "INR",
+                        "name": "Masstech Business Solutions Pvt.Ltd",
+                        "description": "Checkout Payment",
+                        "order_id": orderId,
+                        "handler": function (response) {
+                            alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                        },
+                        "prefill": {
+                            "name": "Krish Kheloji",
+                            "email": "khelojikrish@gmail.com",
+                            "contact": "7208921898"
+                        },
+                        "theme": {
+                            "color": "#F37254"
+                        }
+                    };
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                },
+                    error: function (xhr) {
+            alert("Failed to create Razorpay order: " + xhr.responseText);
+        }
+            });
+        }
+    </script>
 }
