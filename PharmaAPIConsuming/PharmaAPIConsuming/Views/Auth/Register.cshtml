@@ -1,4 +1,8 @@
-﻿@using PharmaAPIConsuming.DTO
+﻿@{
+	Layout = "";
+}
+
+@using PharmaAPIConsuming.DTO
 @model RegisterDTO
 
 
@@ -117,7 +121,7 @@
 											<div class="text-center">
 												<h6 class="fw-normal text-dark mb-0">
 													Already have an account?
-													<a href="login-2.html" class="hover-a">Sign In</a>
+													<a asp-action="Login" asp-controller="Auth" class="hover-a">Sign In</a>
 												</h6>
 											</div>
 											<div class="login-or">
