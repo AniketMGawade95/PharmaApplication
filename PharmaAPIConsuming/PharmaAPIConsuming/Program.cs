@@ -63,7 +63,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
 
-    pattern: "{controller=BuyMedicine}/{action=BuyMedicine}/{id?}");  //Auth and Login
+    pattern: "{controller=Auth}/{action=Login}/{id?}");  //Auth and Login
 
     //pattern: "{controller=Auth}/{action=Login}/{id?}");  //Auth and Login
 
