@@ -9,10 +9,10 @@ namespace PharmaAPICreation.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUser repo;
-        public UserController(IUser repo)
-        {
-            this.repo = repo;   
-        }
+        //IUser repo;
+        //public UserController(IUser repo)
+        //{
+        //    this.repo = repo;   
+        //}
     }
 }

@@ -32,7 +32,8 @@ builder.Services.AddScoped<IAuthorization, AuthorizationService>();
 builder.Services.AddScoped<IAdmin, AdminServices>();
 builder.Services.AddScoped<ICashier, CashierServices>();
 builder.Services.AddScoped<IPharmacist, PharmacistService>();
-<<<<<<< Updated upstream
+
+
 //builder.Services.AddScoped<IUser, UserServices>();
 builder.Services.AddScoped<IPurchaseRepo, PurchaseServices>();
 builder.Services.AddScoped<IPurchaseItemRepo, PurchaseItemService>();
@@ -85,10 +86,8 @@ builder.Services.AddScoped<SaleService>();
 
 builder.Services.AddAuthorization();
 //======================================
-=======
 builder.Services.AddScoped<IUser, UserServices>();
 builder.Services.AddScoped<ICustomerRepository, CustomerService>();
->>>>>>> Stashed changes
 
 
 builder.Services.AddControllers();
