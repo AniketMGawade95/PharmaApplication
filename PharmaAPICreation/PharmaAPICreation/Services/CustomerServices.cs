@@ -84,14 +84,14 @@ namespace PharmaAPICreation.Services
         //    db.SaveChanges();
         //}
 
-        public void UpdateCustomer(CustomerDTO dto)
-        {
-            var c = mapper.Map<Customer>(dto);
-            c.UpdatedBy = dto.UpdatedBy;
-            c.UpdatedAt = DateTime.UtcNow;
-            db.Customers.Update(c);
-            db.SaveChanges();
-        }
+        //public void UpdateCustomer(CustomerDTO dto)
+        //{
+        //    var c = mapper.Map<Customer>(dto);
+        //    c.UpdatedBy = dto.UpdatedBy;
+        //    c.UpdatedAt = DateTime.UtcNow;
+        //    db.Customers.Update(c);
+        //    db.SaveChanges();
+        //}
 
 
         public List<CustomerDTO> GetAllCustomers()
